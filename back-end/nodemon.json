@@ -1,0 +1,8 @@
+{
+    "env": {
+        "DB_USER": "hanqing",
+        "DB_PASSWORD": "lhq3361951",
+        "DB_NAME": "mern",
+        "GOOGLE_API_KEY": "AIzaSyAnGPO6IhwY6pO1Lg3cqQhXhTuadxFisUk"
+    }
+}

@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
-const getCoordsForAddress = require('../util/location');
+//const getCoordsForAddress = require('../util/location');
 const Place = require('../models/place');
 const User = require('../models/user');
 
