@@ -18,16 +18,7 @@ const PlaceItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
 
-  const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const openMapHandler = () => {
-    setShowMap(true);
-  };
-
-  const closeMapHandler = () => {
-    setShowMap(false);
-  };
 
   const showDeleteHandler = () => {
     setShowConfirmModal(true);
@@ -48,18 +39,6 @@ const PlaceItem = (props) => {
   return (
     <React.Fragment>
     <ErrorModal error={error} onClear={clearError} />
-      <Modal
-        show={showMap}
-        onCancel={closeMapHandler}
-        header={props.address}
-        contentClass="place-item__modal-content"
-        footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
-      >
-        <div className="map-container">
-          <Map center={props.coordinates} zoom={16} />
-        </div>
-      </Modal>
 
       <Modal
         show={showConfirmModal}
@@ -92,9 +71,7 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-            <Button inverse onClick={openMapHandler}>
-              VIEW ON MAP
-            </Button>
+    
             {auth.userId === props.creatorId && (
               <Button to={`/places/${props.id}`}>EDIT</Button>
             )}
