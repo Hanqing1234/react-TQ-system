@@ -43,13 +43,10 @@ const App = () => {
         <Route path="/" exact>
           <Users />
         </Route>
-        <Route path="/:userId/places" exact>
+        <Route path="/tickets/all" exact>
           <UserPlaces />
         </Route>
-        <Route path="/places/new" exact>
-          <NewPlace />
-        </Route>
-        <Route path="/places/:placeId">
+        <Route path="/tickets/:placeId">
           <UpdatePlace />
         </Route>
         <Redirect to="/" />
@@ -64,13 +61,12 @@ const App = () => {
         <Route path="/:userId/places" exact>
           <UserPlaces />
         </Route>
-        <Route path="/places/new" exact>
+        <Route path="/tickets/new" exact>
           <NewPlace />
         </Route>
         <Route path="/auth">
           <Auth />
         </Route>
-  
         <Redirect to="/auth" />
       </Switch>
     );

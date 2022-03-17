@@ -9,6 +9,32 @@ const User = require('../models/user');
 
 const fs = require('fs');
 
+const getPlaces = async (req, res, next) => {
+  let place;
+  try {
+    place = await Place.find({});
+    console.log(place)
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong111111, could not find a place.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!place) {
+    const error = new HttpError(
+      'Could not find a place for the provided id.',
+      404
+    );
+    return next(error);
+  }
+ console.log(place)
+  res.json({ places: place.map(place =>
+    place.toObject({ getters: true })
+  ) });
+};
+
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
 
@@ -17,7 +43,7 @@ const getPlaceById = async (req, res, next) => {
     place = await Place.findById(placeId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find a place.',
+      'Something went wrong222222222222, could not find a place.',
       500
     );
     return next(error);
@@ -71,7 +97,7 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description,  creator } = req.body;
+  const { title, description } = req.body;
 
   /*let coordinates;
   try {
@@ -86,30 +112,15 @@ const createPlace = async (req, res, next) => {
     //address,
     // location: coordinates,
     image: req.file.path,
-    creator
   });
 
-  let user;
-  try {
-    user = await User.findById(creator);
-  } catch (err) {
-    const error = new HttpError('Creating place failed, please try again', 500);
-    return next(error);
-  }
-
-  if (!user) {
-    const error = new HttpError('Could not find user for provided id', 404);
-    return next(error);
-  }
-
-  console.log(user);
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdPlace.save({ session: sess });
-    user.places.push(createdPlace);
-    await user.save({ session: sess });
+    //user.places.push(createdPlace);
+    //await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
@@ -203,6 +214,7 @@ const deletePlace = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted place.' });
 };
 
+exports.getPlaces = getPlaces;
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
