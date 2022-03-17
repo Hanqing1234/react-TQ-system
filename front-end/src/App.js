@@ -56,7 +56,7 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Users />
+        
         </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />
