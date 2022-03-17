@@ -31,7 +31,7 @@ const PlaceItem = (props) => {
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(process.env.REACT_APP_BACKEND_URL + `/tickets/all`, "DELETE");
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + `/tickets/${props.id}`, "DELETE");
       props.onDelete(props.id);
     } catch (err) {}
   };

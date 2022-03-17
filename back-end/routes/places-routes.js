@@ -11,10 +11,10 @@ const router = express.Router();
 
 router.get('/user/:uid', placesControllers.getPlacesByUserId);
 
-router.get('/tickets/all', placesControllers.getPlaces);
+router.get('/all', placesControllers.getPlaces);
 
 router.post(
-  '/tickets/all',
+  '/all',
   fileUpload.single('image'),
   [
     check('title')
@@ -29,7 +29,7 @@ router.post(
 );
 
 router.patch(
-  '/tickets/all',
+  '/:pid',
   [
     check('title')
       .not()
@@ -39,6 +39,6 @@ router.patch(
   placesControllers.updatePlace
 );
 
-router.delete('/tickets/all', placesControllers.deletePlace);
+router.delete('/:pid', placesControllers.deletePlace);
 
 module.exports = router;
