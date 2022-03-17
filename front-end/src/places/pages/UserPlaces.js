@@ -21,9 +21,7 @@ const UserPlaces = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
         console.log(responseData)
-     
         setLoadedPlaces(responseData.places);
-        console.log(loadedPlaces)
       } catch (err) {}
     };
     fetchPlaces();

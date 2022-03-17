@@ -13,7 +13,7 @@ const getPlaces = async (req, res, next) => {
   let place;
   try {
     place = await Place.find({});
-    console.log(place)
+    console.log(222222222333333)
   } catch (err) {
     const error = new HttpError(
       'Something went wrong111111, could not find a place.',

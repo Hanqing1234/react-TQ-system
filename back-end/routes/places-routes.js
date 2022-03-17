@@ -7,7 +7,7 @@ const placesControllers = require('../controllers/places-controllers');
 
 const router = express.Router();
 
-router.get('/:pid', placesControllers.getPlaces);
+//router.get('/:pid', placesControllers.getPlaces);
 
 router.get('/user/:uid', placesControllers.getPlacesByUserId);
 
@@ -29,7 +29,7 @@ router.post(
 );
 
 router.patch(
-  '/:pid',
+  '/tickets/all',
   [
     check('title')
       .not()
@@ -39,6 +39,6 @@ router.patch(
   placesControllers.updatePlace
 );
 
-router.delete('/:pid', placesControllers.deletePlace);
+router.delete('/tickets/all', placesControllers.deletePlace);
 
 module.exports = router;
