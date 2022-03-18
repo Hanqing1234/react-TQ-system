@@ -31,7 +31,7 @@ const PlaceItem = (props) => {
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(process.env.REACT_APP_BACKEND_URL + `/places/${props.id}`, "DELETE");
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + `/tickets/${props.id}`, "DELETE");
       props.onDelete(props.id);
     } catch (err) {}
   };
@@ -72,10 +72,10 @@ const PlaceItem = (props) => {
           </div>
           <div className="place-item__actions">
     
-            {auth.userId === props.creatorId && (
-              <Button to={`/places/${props.id}`}>EDIT</Button>
+            {auth && (
+              <Button to={`/tickets/${props.id}`}>EDIT</Button>
             )}
-            {auth.userId === props.creatorId && (
+            {auth && (
               <Button danger onClick={showDeleteHandler}>
                 DELETE
               </Button>

@@ -152,7 +152,7 @@ const FAQ = () => {
                 <Card.Text>Try submit and trace your question here :</Card.Text>
                 <div className="d-flex justify-content-center">
                   <div className="mx-2 mb-3">
-                    <NavLink to={`/users`}>
+                    <NavLink to={`/tickets/new`}>
                       <Button variant="danger">
                         <FontAwesomeIcon icon={faAddressCard} size="1x" />
                         &nbsp;&nbsp;Submit new ticket

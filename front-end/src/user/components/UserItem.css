@@ -12,12 +12,12 @@
     text-decoration: none;
     padding: 1rem;
     color: white;
-    background: #292929;
+    background: #155880;
   }
   
   .user-item a:hover,
   .user-item a:active {
-    background: #ffd900;
+    background: #918f87;
   }
   
   .card.user-item__content {
@@ -36,12 +36,16 @@
     font-weight: normal;
     color: #ffd900;
   }
+
+  .user-item__info h3 {
+    color: white;
+  }
   
   .user-item:hover h2,
   .user-item:active h2,
   .user-item:hover h3,
   .user-item:active h3 {
-    color: #292929;
+    color: #ffffff;
   }
   
   .user-item__info h3 {

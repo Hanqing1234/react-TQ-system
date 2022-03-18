@@ -14,19 +14,18 @@ const UserPlaces = () => {
 
   const userId = useParams().userId;
 
-
-
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
+          `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
+        console.log(responseData)
         setLoadedPlaces(responseData.places);
       } catch (err) {}
     };
     fetchPlaces();
-  }, [sendRequest, userId]);
+  }, [sendRequest]);
   
   const placeDeletedHandler = (deletedPlaceId) => {
     setLoadedPlaces(prevPlaces => prevPlaces.filter(place => place.id !== deletedPlaceId))

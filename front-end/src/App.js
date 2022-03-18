@@ -13,9 +13,9 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 //import UpdatePlace from "./places/pages/UpdatePlace";
 //import Auth from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
-import LoadingSpinner from './shared/components/UIElements/LoadingSpinner';
+import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
 
-const FAQ = React.lazy(()=>import("./user/pages/FAQ"));
+const FAQ = React.lazy(() => import("./user/pages/FAQ"));
 const Users = React.lazy(() => import("./user/pages/User"));
 const Auth = React.lazy(() => import("./user/pages/Auth"));
 const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
@@ -44,16 +44,10 @@ const App = () => {
         <Route path="/" exact>
           <FAQ />
         </Route>
-        <Route path="/users" exact>
-          <Users />
-        </Route>
-        <Route path="/:userId/places" exact>
+        <Route path="/tickets/all" exact>
           <UserPlaces />
         </Route>
-        <Route path="/places/new" exact>
-          <NewPlace />
-        </Route>
-        <Route path="/places/:placeId">
+        <Route path="/tickets/:placeId" exact>
           <UpdatePlace />
         </Route>
         <Redirect to="/" />
@@ -65,19 +59,15 @@ const App = () => {
         <Route path="/" exact>
           <FAQ />
         </Route>
-        <Route path="/users" exact>
-          <Users />
-        </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />
         </Route>
-        <Route path="/places/new" exact>
+        <Route path="/tickets/new" exact>
           <NewPlace />
         </Route>
         <Route path="/auth">
           <Auth />
         </Route>
-  
         <Redirect to="/auth" />
       </Switch>
     );
@@ -111,4 +101,3 @@ const App = () => {
 };
 
 export default App;
-

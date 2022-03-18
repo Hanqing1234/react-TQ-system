@@ -37,21 +37,25 @@ const UpdatePlace = () => {
   );
 
   console.log(formState.inputs);
+  console.log(placeId);
   useEffect(() => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
+          `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`
         );
-        setLoadedPlace(responseData.place);
+        console.log(responseData.places);
+        responseData.places = responseData.places.filter(place => placeId === place._id)
+        console.log(responseData);
+        setLoadedPlace(responseData.places);
         setFormData(
           {
             title: {
-              value: responseData.place.title,
+              value: responseData.places.title,
               isValid: true,
             },
             description: {
-              value: responseData.place.description,
+              value: responseData.places.description,
               isValid: true,
             },
           },
@@ -95,7 +99,7 @@ const UpdatePlace = () => {
       </div>
     );
   }
-
+console.log(loadedPlace)
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -109,7 +113,7 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid title."
             onInput={inputHandler}
-            initialValue={loadedPlace.title}
+            initialValue={loadedPlace[0].title}
             initialValid={true}
           />
           <Input
@@ -119,7 +123,7 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid description (min. 5 characters)."
             onInput={inputHandler}
-            initialValue={loadedPlace.description}
+            initialValue={loadedPlace[0].description}
             initialValid={true}
           />
           <Button type="submit" disabled={!formState.isValid}>

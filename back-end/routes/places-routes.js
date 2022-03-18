@@ -7,17 +7,19 @@ const placesControllers = require('../controllers/places-controllers');
 
 const router = express.Router();
 
-router.get('/:pid', placesControllers.getPlaceById);
+router.get('/:pid', placesControllers.getPlaces);
 
 router.get('/user/:uid', placesControllers.getPlacesByUserId);
 
+router.get('/all', placesControllers.getPlaces);
+
 router.post(
-  '/',
+  '/all',
   fileUpload.single('image'),
   [
     check('title')
       .not()
-      .isEmpty(),
+      .isEmpty(), 
     check('description').isLength({ min: 5 })
     //check('address')
     //  .not()
