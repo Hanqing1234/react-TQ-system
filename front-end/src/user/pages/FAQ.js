@@ -24,7 +24,7 @@ const FAQ = () => {
   // -------- FAQs dummy --------
   const dummyFAQs = [
     {
-      question: "How to become a premium memeber?",
+      question: "How to become a premium member?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quo modo autem optimum, si bonum praeterea nullum est? Ex quo, id quod omnes expetunt, beate vivendi ratio inveniri et comparari potest. Sed fortuna fortis; At enim hic etiam dolore. Duo Reges: constructio interrete. In eo enim positum est id, quod dicimus esse expetendum. Atque ab isto capite fluere necesse est omnem rationem bonorum et malorum. Aliter autem vobis placet. Quarum ambarum rerum cum medicinam pollicetur, luxuriae licentiam pollicetur.Nec lapathi suavitatem acupenseri Galloni Laelius anteponebat, sed suavitatem ipsam neglegebat; Quodsi ipsam honestatem undique pertectam atque absolutam. Quarum ambarum rerum cum medicinam pollicetur, luxuriae licentiam pollicetur. Haec dicuntur inconstantissime.Cyrenaici quidem non recusant; Sic exclusis sententiis reliquorum cum praeterea nulla esse possit, haec antiquorum valeat necesse est. Dicimus aliquem hilare vivere; Cur ipse Pythagoras et Aegyptum lustravit et Persarum magos adiit?",
     },
@@ -35,7 +35,7 @@ const FAQ = () => {
     },
     {
       question:
-        "Can I finish my premium memebership within 1 year and get my refund?",
+        "Can I finish my premium membership within 1 year and get my refund?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor  Lorem ipsum dolor sit amet, seddo eiusmod tempor  Lorem ipsum dolor sit amet, seddo eiusmod tempor  Lorem ipsum dolor sit amet, seddo eiusmod tempor  Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute",
     },
@@ -70,7 +70,7 @@ const FAQ = () => {
       timer = setTimeout(() => {
         timer = null;
         func.apply(context, args);
-      }, 500);
+      }, 300);
     };
   };
 
@@ -84,8 +84,6 @@ const FAQ = () => {
         matchingResult.push(item);
       }
     });
-
-    console.log("matching" + matchingResult);
     setFAQs(matchingResult);
   };
 
