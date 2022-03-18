@@ -140,13 +140,13 @@ const updatePlace = async (req, res, next) => {
       new HttpError('Invalid inputs passed, please check your data-back-update.', 422)
     );
   }
-
+  console.log(req)
   const { title, description } = req.body;
-  const placeId = req.params.pid;
+  const ticketId = req.params.pid;
 
-  let place;
+  let ticket;
   try {
-    place = await Place.findById(placeId);
+    ticket = await Place.findById(ticketId);
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not update place.',
@@ -155,11 +155,11 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
-  place.title = title;
-  place.description = description;
+  ticket.title = title;
+  ticket.description = description;
 
   try {
-    await place.save();
+    await ticket.save();
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not update place.',
@@ -168,7 +168,7 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ place: place.toObject({ getters: true }) });
+  res.status(200).json({ ticket: ticket.toObject({ getters: true }) });
 };
 
 const deletePlace = async (req, res, next) => {

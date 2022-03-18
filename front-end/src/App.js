@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/tickets/all" exact>
           <UserPlaces />
         </Route>
-        <Route path="/tickets/:placeId">
+        <Route path="/tickets/:placeId" exact>
           <UpdatePlace />
         </Route>
         <Redirect to="/" />

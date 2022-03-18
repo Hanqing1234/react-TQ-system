@@ -7,7 +7,7 @@ const placesControllers = require('../controllers/places-controllers');
 
 const router = express.Router();
 
-//router.get('/:pid', placesControllers.getPlaces);
+router.get('/:pid', placesControllers.getPlaces);
 
 router.get('/user/:uid', placesControllers.getPlacesByUserId);
 

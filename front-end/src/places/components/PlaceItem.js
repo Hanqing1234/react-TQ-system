@@ -73,7 +73,7 @@ const PlaceItem = (props) => {
           <div className="place-item__actions">
     
             {auth && (
-              <Button to={`/places/${props.id}`}>EDIT</Button>
+              <Button to={`/tickets/${props.id}`}>EDIT</Button>
             )}
             {auth && (
               <Button danger onClick={showDeleteHandler}>
