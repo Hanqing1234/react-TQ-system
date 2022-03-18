@@ -45,7 +45,7 @@ const UpdatePlace = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`
         );
         console.log(responseData.places);
-        responseData.places = responseData.places.filter(place => placeId == place._id)
+        responseData.places = responseData.places.filter(place => placeId === place._id)
         console.log(responseData);
         setLoadedPlace(responseData.places);
         setFormData(
