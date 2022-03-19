@@ -7,7 +7,6 @@ const User = require("../models/user");
 
 const getUsers = async (req, res, next) => {
   let users;
-  console.log(111111111111)
   try {
     users = await User.find({}, "-password");
     console.log(users);

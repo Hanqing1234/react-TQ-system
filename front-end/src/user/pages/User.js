@@ -14,7 +14,7 @@ const User = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users"
+          process.env.REACT_APP_BACKEND_URL + "/users/all"
         );
         console.log(responseData)
         setLoadedUsers(responseData.users);
