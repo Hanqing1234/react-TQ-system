@@ -4,7 +4,7 @@ import { Image } from "antd";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
-import Modal from "../../shared/components/UIElements/Modal";
+import Modaltest from "../../shared/components/UIElements/Modaltest";
 import Map from "../../shared/components/UIElements/Map";
 
 import { AuthContext } from "../../shared/context/auth-context";
@@ -31,16 +31,19 @@ const PlaceItem = (props) => {
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(process.env.REACT_APP_BACKEND_URL + `/tickets/${props.id}`, "DELETE");
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + `/tickets/${props.id}`,
+        "DELETE"
+      );
       props.onDelete(props.id);
     } catch (err) {}
   };
 
   return (
     <React.Fragment>
-    <ErrorModal error={error} onClear={clearError} />
+      <ErrorModal error={error} onClear={clearError} />
 
-      <Modal
+      <Modaltest
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure"
@@ -57,13 +60,16 @@ const PlaceItem = (props) => {
         }
       >
         <p>Do you want to delete?</p>
-      </Modal>
+      </Modaltest>
 
       <li className="place-item">
         <Card className="place-item__content">
-        {isLoading && <LoadingSpinner asOverlay />}
+          {isLoading && <LoadingSpinner asOverlay />}
           <Card className="place-item__image">
-            <Image src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`} alt={props.title}/>
+            <Image
+              src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
+              alt={props.title}
+            />
           </Card>
           <div className="place-item__info">
             <h2>{props.title}</h2>
@@ -71,10 +77,7 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-    
-            {auth && (
-              <Button to={`/tickets/${props.id}`}>EDIT</Button>
-            )}
+            {auth && <Button to={`/tickets/${props.id}`}>EDIT</Button>}
             {auth && (
               <Button danger onClick={showDeleteHandler}>
                 DELETE
