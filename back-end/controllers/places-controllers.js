@@ -9,11 +9,34 @@ const User = require('../models/user');
 
 const fs = require('fs');
 
+const getTicket = async (req, res, next) => {
+  const placeId = req.params.pid;
+  let place;
+  try {
+    place = await Place.findById(placeId);
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not find a place.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!place) {
+    const error = new HttpError(
+      'Could not find a place for the provided id.',
+      404
+    );
+    return next(error);
+  }
+
+  res.json({ place: place.toObject({ getters: true }) });
+};
+
 const getPlaces = async (req, res, next) => {
   let place;
   try {
     place = await Place.find({});
-    console.log(222222222333333)
   } catch (err) {
     const error = new HttpError(
       'Something went wrong111111, could not find a place.',
@@ -43,7 +66,7 @@ const getPlaceById = async (req, res, next) => {
     place = await Place.findById(placeId);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong222222222222, could not find a place.',
+      'Something went wrong, could not find a place.',
       500
     );
     return next(error);
@@ -218,6 +241,7 @@ const deletePlace = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted place.' });
 };
 
+exports.getTicket = getTicket;
 exports.getPlaces = getPlaces;
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;

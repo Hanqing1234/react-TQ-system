@@ -37,17 +37,14 @@ const UpdatePlace = () => {
   );
 
   console.log(formState.inputs);
-  console.log(placeId);
   useEffect(() => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`
         );
-        console.log(responseData.places);
-        responseData.places = responseData.places.filter(place => placeId === place._id)
         console.log(responseData);
-        setLoadedPlace(responseData.places);
+        setLoadedPlace(responseData);
         setFormData(
           {
             title: {
@@ -113,8 +110,9 @@ console.log(loadedPlace)
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid title."
             onInput={inputHandler}
-            initialValue={loadedPlace[0].title}
+            initialValue={loadedPlace.place.title}
             initialValid={true}
+            disabled={true}
           />
           <Input
             id="description"
@@ -123,9 +121,11 @@ console.log(loadedPlace)
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid description (min. 5 characters)."
             onInput={inputHandler}
-            initialValue={loadedPlace[0].description}
+            initialValue={loadedPlace.place.description}
             initialValid={true}
+            disabled={true}
           />
+          
           <Button type="submit" disabled={!formState.isValid}>
             UPDATE PLACE
           </Button>
