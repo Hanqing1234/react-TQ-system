@@ -1,17 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
+const moment = require("moment");
 
 const Schema = mongoose.Schema;
 
-
 const placeSchema = new Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    image: { type: String, required: true }
-    /*address: { type: String, required: true },*/
-    /*location: {
-        lat: { type: Number, required: true },
-        lng: { type: Number, required: true },
-    },*/
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  image: { type: String, required: true },
+  ticket_status: { type: String, default: "1"},
+  cust_name: { type: String, required: true },
+  cust_email: { type: String, required: true },
+   create_date: {
+     type: String,
+     default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
+   },
+  message: { type: String, default: ""},
 });
 
-module.exports = mongoose.model('Place', placeSchema);
+module.exports = mongoose.model("Place", placeSchema);

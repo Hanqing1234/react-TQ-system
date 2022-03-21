@@ -20,8 +20,11 @@ router.post(
     check('title')
       .not()
       .isEmpty(), 
-    check('description').isLength({ min: 5 })
-    //check('address')
+    check('description').isLength({ min: 5 }),
+    // check('cust_name')
+    //  .not()
+    //  .isEmpty(),
+    //  check('cust_email')
     //  .not()
     //  .isEmpty()
   ],

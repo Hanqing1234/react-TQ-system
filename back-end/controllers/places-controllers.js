@@ -97,8 +97,8 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description } = req.body;
-
+  const { title, description, cust_name, cust_email} = req.body;
+  console.log(req.body)
   /*let coordinates;
   try {
     coordinates = await getCoordsForAddress(address);
@@ -109,10 +109,12 @@ const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     title,
     description,
-    //address,
-    // location: coordinates,
     image: req.file.path,
+    cust_name,
+    cust_email
+    
   });
+  console.log(createdPlace)
 
 
   try {
