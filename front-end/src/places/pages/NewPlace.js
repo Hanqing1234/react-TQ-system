@@ -13,6 +13,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../shared/util/validators
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
+import { message } from 'antd';
 
 const NewPlace = () => {
   const auth = useContext(AuthContext);
@@ -61,6 +62,9 @@ const NewPlace = () => {
       history.push("/");
     } catch (err) {}
   };
+  const success = () => {
+    message.success('Thank you for submitting ticket', 3);
+  };
 
   return (
     <React.Fragment>
@@ -108,7 +112,7 @@ const NewPlace = () => {
           onInput={inputHandler}
           errorText="Please input an image"
         />
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" disabled={!formState.isValid} onClick={success}>
           ADD PLACE
         </Button>
       </form>
