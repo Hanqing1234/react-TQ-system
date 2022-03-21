@@ -166,7 +166,7 @@ const updatePlace = async (req, res, next) => {
     );
   }
   console.log(req)
-  const { title, description } = req.body;
+  const { message } = req.body;
   const ticketId = req.params.pid;
 
   let ticket;
@@ -180,9 +180,8 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
-  ticket.title = title;
-  ticket.description = description;
-
+  ticket.message = message;
+ 
   try {
     await ticket.save();
   } catch (err) {

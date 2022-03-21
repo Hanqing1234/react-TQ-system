@@ -77,7 +77,7 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-            {auth && <Button to={`/tickets/${props.id}`}>EDIT</Button>}
+            {auth && <Button to={`/tickets/${props.id}`}>DETAILS</Button>}
             {auth && (
               <Button danger onClick={showDeleteHandler}>
                 DELETE

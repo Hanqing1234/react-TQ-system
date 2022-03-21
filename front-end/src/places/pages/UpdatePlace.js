@@ -67,19 +67,19 @@ const UpdatePlace = () => {
 
   const placeUpdateSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log(formState.inputs.message.value)
     try {
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`,
         "PATCH",
         JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
+          message: formState.inputs.message.value,
         }),
         {
           "Content-Type": "application/json",
         }
       );
-      history.push("/" + auth.userId + "/places");
+      history.push("/tickets/all");
     } catch (err) {}
   };
 
