@@ -166,7 +166,7 @@ const updatePlace = async (req, res, next) => {
     );
   }
   console.log(req)
-  const { message } = req.body;
+  const { message, ticket_status } = req.body;
   const ticketId = req.params.pid;
 
   let ticket;
@@ -181,6 +181,7 @@ const updatePlace = async (req, res, next) => {
   }
 
   ticket.message = message;
+  ticket.ticket_status = ticket_status;
  
   try {
     await ticket.save();

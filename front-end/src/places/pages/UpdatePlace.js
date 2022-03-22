@@ -13,6 +13,12 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./PlaceForm.css";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 
 const UpdatePlace = () => {
@@ -22,17 +28,15 @@ const UpdatePlace = () => {
 
   const [loadedPlace, setLoadedPlace] = useState();
 
+  const [status, setStatus] = useState();
+
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
         value: "",
-        isValid: false,
-      },
-      description: {
-        value: "",
-        isValid: false,
+        isValid: true,
       },
     },
     false
@@ -47,33 +51,23 @@ const UpdatePlace = () => {
         );
         console.log(responseData);
         setLoadedPlace(responseData);
-        setFormData(
-          {
-            title: {
-              value: responseData.places.title,
-              isValid: true,
-            },
-            description: {
-              value: responseData.places.description,
-              isValid: true,
-            },
-          },
-          true
-        );
+        setStatus(responseData.place.ticket_status);
       } catch (err) {}
     };
     fetchPlace();
-  }, [sendRequest, placeId, setFormData]);
+  }, [sendRequest, placeId, setFormData, setStatus]);
 
   const placeUpdateSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs.message.value)
+    console.log(status);
+    console.log(formState.inputs);
     try {
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`,
         "PATCH",
         JSON.stringify({
           message: formState.inputs.message.value,
+          ticket_status: status,
         }),
         {
           "Content-Type": "application/json",
@@ -99,6 +93,10 @@ const UpdatePlace = () => {
     );
   }
   console.log(loadedPlace);
+  const changeRadio = (event) => {
+    console.log(event.target.value);
+    setStatus(event.target.value);
+  };
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -167,6 +165,21 @@ const UpdatePlace = () => {
             initialValid={true}
             disabled={false}
           />
+          <Card className="place-item__radio">
+            <FormLabel id="status">Status</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="ticket_status"
+              defaultValue={loadedPlace.place.ticket_status}
+              onChange={changeRadio}
+            >
+              <FormControlLabel value="1" control={<Radio />} label="1" />
+              <FormControlLabel value="2" control={<Radio />} label="2" />
+              <FormControlLabel value="3" control={<Radio />} label="3" />
+            </RadioGroup>
+          </Card>
+
           <Button type="submit" disabled={!formState.isValid}>
             UPDATE PLACE
           </Button>
