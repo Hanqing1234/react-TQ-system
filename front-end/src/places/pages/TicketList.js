@@ -15,10 +15,16 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import { AuthContext } from "../../shared/context/auth-context";
 
+import Modaltest from "../../shared/components/UIElements/Modaltest";
+
 const TicketList = () => {
   const auth = useContext(AuthContext);
   const [loadedPlaces, setLoadedPlaces] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+ 
 
   const [rows, setRows] = React.useState();
   const [selectedRow, setSelectedRow] = React.useState();
@@ -33,20 +39,32 @@ const TicketList = () => {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
-        console.log(responseData);
+        
         setRows(responseData.places);
       } catch (err) {}
     };
     fetchPlaces();
   }, [sendRequest]);
 
-  const placeDeletedHandler = (deletedPlaceId) => {
-    setLoadedPlaces((prevPlaces) =>
-      prevPlaces.filter((place) => place.id !== deletedPlaceId)
-    );
+  const showDeleteHandler = () => {
+    setShowConfirmModal(true);
   };
-  console.log(rows);
-  console.log(auth);
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmDeleteHandler = async () => {
+    setShowConfirmModal(false);
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + `/tickets/`,
+        "DELETE"
+      );
+      //props.onDelete(props.id);
+    } catch (err) {}
+  };
+
   const columns = [
     {
       field: "cust_name",
@@ -99,7 +117,17 @@ const TicketList = () => {
       renderCell: (cellValues) => {
         return (
           <Button
-            danger
+            danger 
+            onClick={async () => {
+                setShowConfirmModal(false);
+                try {
+                  await sendRequest(
+                    process.env.REACT_APP_BACKEND_URL + `/tickets/${cellValues.row.id}`,
+                    "DELETE"
+                  );
+                  setRows(prevPlaces => prevPlaces.filter(place => place.id !== cellValues.row.id))
+                } catch (err) {}
+              }}
           >
             Remove
           </Button>
@@ -156,8 +184,28 @@ const TicketList = () => {
 
   return (
     <React.Fragment>
+    <ErrorModal error={error} onClear={clearError} />
+
+    <Modaltest
+      show={showConfirmModal}
+      onCancel={cancelDeleteHandler}
+      header="Are you sure"
+      footerClass="place-item__modal-actions"
+      footer={
+        <React.Fragment>
+          <Button inverse onClick={cancelDeleteHandler}>
+            CANCEL
+          </Button>
+          <Button danger onClick={confirmDeleteHandler}>
+            DELETE
+          </Button>
+        </React.Fragment>
+      }
+    >
+      <p>Do you want to delete?</p>
+    </Modaltest>
       <Container>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 700, width: "100%" }}>
           {rows && (
             <DataGrid
               columns={columns}
