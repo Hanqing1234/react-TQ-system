@@ -21,6 +21,7 @@ const Auth = React.lazy(() => import("./user/pages/Auth"));
 const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
 const UserPlaces = React.lazy(() => import("./places/pages/UserPlaces"));
 const UpdatePlace = React.lazy(() => import("./places/pages/UpdatePlace"));
+const TicketList = React.lazy(() => import("./places/pages/TicketList"));
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +46,7 @@ const App = () => {
           <Users />
         </Route>
         <Route path="/tickets/all" exact>
-          <UserPlaces />
+          <TicketList />
         </Route>
         <Route path="/tickets/:placeId" exact>
           <UpdatePlace />
@@ -60,7 +61,7 @@ const App = () => {
           <FAQ />
         </Route>
         <Route path="/:userId/places" exact>
-          <UserPlaces />
+          <TicketList />
         </Route>
         <Route path="/tickets/new" exact>
           <NewPlace />
