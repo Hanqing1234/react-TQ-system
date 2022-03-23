@@ -1,37 +1,31 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {  Container } from "@mui/material";
-import Button from '../../shared/components/FormElements/Button';
+import { Container } from "@mui/material";
+import Button from "../../shared/components/FormElements/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-import PlaceList from "../components/PlaceList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-
-import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import { AuthContext } from "../../shared/context/auth-context";
 
-import Modaltest from "../../shared/components/UIElements/Modaltest";
+import ModalTest from "../../shared/components/UIElements/ModalTest";
 
 const TicketList = () => {
   const auth = useContext(AuthContext);
-  const [loadedPlaces, setLoadedPlaces] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
- 
-
   const [rows, setRows] = React.useState();
-  const [selectedRow, setSelectedRow] = React.useState();
+  const [selectedRow, setSelectedRow] = useState();
 
-  const [contextMenu, setContextMenu] = React.useState(null);
+  const [contextMenu, setContextMenu] = useState(null);
 
-  const userId = useParams().userId;
+  const [ticketRow, setTicketRow] = useState("");
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -39,30 +33,36 @@ const TicketList = () => {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
-        
+
         setRows(responseData.places);
       } catch (err) {}
     };
     fetchPlaces();
   }, [sendRequest]);
 
-  const showDeleteHandler = () => {
+  const showDeleteHandler = (cellValues) => {
+    console.log(cellValues)
     setShowConfirmModal(true);
+    setTicketRow(cellValues)
+    console.log(ticketRow)
   };
 
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
   };
 
-  const confirmDeleteHandler = async () => {
+  const confirmDeleteHandler = async (cellValues) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL + `/tickets/`,
+        process.env.REACT_APP_BACKEND_URL + `/tickets/${cellValues.row.id}`,
         "DELETE"
       );
-      //props.onDelete(props.id);
+      setRows((prevTickets) =>
+        prevTickets.filter((ticket) => ticket.id !== cellValues.row.id)
+      );
     } catch (err) {}
+    
   };
 
   const columns = [
@@ -82,10 +82,10 @@ const TicketList = () => {
       width: 140,
     },
     {
-        field: "description",
-        headerName: "Description",
-        width: 140,
-      },
+      field: "description",
+      headerName: "Description",
+      width: 140,
+    },
     {
       field: "ticket_status",
       headerName: "Status",
@@ -99,11 +99,8 @@ const TicketList = () => {
         return (
           <React.Fragment>
             {auth && (
-              <Button
-                inverse
-                to={`/tickets/${cellValues.row.id}`}
-              >
-                Edit
+              <Button inverse to={`/tickets/${cellValues.row.id}`}>
+                Details
               </Button>
             )}
           </React.Fragment>
@@ -117,17 +114,8 @@ const TicketList = () => {
       renderCell: (cellValues) => {
         return (
           <Button
-            danger 
-            onClick={async () => {
-                setShowConfirmModal(false);
-                try {
-                  await sendRequest(
-                    process.env.REACT_APP_BACKEND_URL + `/tickets/${cellValues.row.id}`,
-                    "DELETE"
-                  );
-                  setRows(prevPlaces => prevPlaces.filter(place => place.id !== cellValues.row.id))
-                } catch (err) {}
-              }}
+            danger
+            onClick={() => showDeleteHandler(cellValues)}
           >
             Remove
           </Button>
@@ -184,26 +172,30 @@ const TicketList = () => {
 
   return (
     <React.Fragment>
-    <ErrorModal error={error} onClear={clearError} />
-
-    <Modaltest
-      show={showConfirmModal}
-      onCancel={cancelDeleteHandler}
-      header="Are you sure"
-      footerClass="place-item__modal-actions"
-      footer={
-        <React.Fragment>
-          <Button inverse onClick={cancelDeleteHandler}>
-            CANCEL
-          </Button>
-          <Button danger onClick={confirmDeleteHandler}>
-            DELETE
-          </Button>
-        </React.Fragment>
-      }
-    >
-      <p>Do you want to delete?</p>
-    </Modaltest>
+      <ErrorModal error={error} onClear={clearError} />
+      <ModalTest
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button danger onClick={() => confirmDeleteHandler(ticketRow)}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>Do you want to delete?</p>
+      </ModalTest>
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
       <Container>
         <div style={{ height: 700, width: "100%" }}>
           {rows && (

@@ -4,12 +4,12 @@ import { CSSTransition } from "react-transition-group";
 
 import Backdrop from "./Backdrop";
 
-import "./Modaltest.css";
+import "./ModalTest.css";
 
 const ModalOverlay = (props) => {
   const content = (
-    <div className={`modaltest ${props.className}`} style={props.style}>
-      <header className={`modaltest__header ${props.headerClass}`}>
+    <div className={`ModalTest ${props.className}`} style={props.style}>
+      <header className={`ModalTest__header ${props.headerClass}`}>
         <h2>{props.header}</h2>
       </header>
       <form
@@ -17,10 +17,10 @@ const ModalOverlay = (props) => {
           props.onSubmit ? props.onSubmit : (event) => event.preventDefault()
         }
       >
-        <div className={`modaltest__content ${props.contentClass}`}>
+        <div className={`ModalTest__content ${props.contentClass}`}>
           {props.children}
         </div>
-        <footer className={`modaltest__footer ${props.footerClass}`}>
+        <footer className={`ModalTest__footer ${props.footerClass}`}>
           {props.footer}
         </footer>
       </form>
@@ -29,7 +29,7 @@ const ModalOverlay = (props) => {
   return ReactDOM.createPortal(content, document.getElementById("modal-hook"));
 };
 
-const Modaltest = (props) => {
+const ModalTest = (props) => {
   return (
     <React.Fragment>
       {props.show && <Backdrop onClick={props.onCancel} />}
@@ -38,7 +38,7 @@ const Modaltest = (props) => {
         mountOnEnter
         unmountOnExit
         timeout={200}
-        classNames="modaltest"
+        classNames="ModalTest"
       >
         <ModalOverlay {...props} />
       </CSSTransition>
@@ -46,4 +46,4 @@ const Modaltest = (props) => {
   );
 };
 
-export default Modaltest;
+export default ModalTest;

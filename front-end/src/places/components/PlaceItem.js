@@ -4,7 +4,7 @@ import { Image } from "antd";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
-import Modaltest from "../../shared/components/UIElements/Modaltest";
+import ModalTest from "../../shared/components/UIElements/ModalTest";
 import Map from "../../shared/components/UIElements/Map";
 
 import { AuthContext } from "../../shared/context/auth-context";
@@ -43,7 +43,7 @@ const PlaceItem = (props) => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
 
-      <Modaltest
+      <ModalTest
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure"
@@ -60,7 +60,7 @@ const PlaceItem = (props) => {
         }
       >
         <p>Do you want to delete?</p>
-      </Modaltest>
+      </ModalTest>
 
       <li className="place-item">
         <Card className="place-item__content">

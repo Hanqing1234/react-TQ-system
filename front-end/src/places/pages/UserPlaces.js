@@ -2,6 +2,7 @@ import React, { useEffect, useState,useContext } from "react";
 
 import PlaceList from "../components/PlaceList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import ModalTest from "../../shared/components/UIElements/ModalTest";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 import { useParams } from "react-router-dom";
