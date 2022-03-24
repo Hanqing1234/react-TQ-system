@@ -1,4 +1,4 @@
-import "./sidebar.css";
+import "./SideBar.css";
 import {
   LineStyle,
   Timeline,
@@ -12,10 +12,10 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-export default function Sidebar() {
+const SideBar = () => {
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -100,4 +100,6 @@ export default function Sidebar() {
       </div>
     </div>
   );
-}
+};
+
+export default SideBar;

@@ -5,6 +5,8 @@ import Button from "../../shared/components/FormElements/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
+import "./TicketList.css";
+
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
@@ -195,8 +197,8 @@ const TicketList = () => {
           <LoadingSpinner />
         </div>
       )}
-      <Container>
-        <div style={{ height: 700, width: "100%" }}>
+      
+        {!isLoading && <div style={{ height: 700, width: "100%" }}>
           {rows && (
             <DataGrid
               columns={columns}
@@ -230,8 +232,8 @@ const TicketList = () => {
             <MenuItem onClick={convertToUppercase}>UPPERCASE</MenuItem>
             <MenuItem onClick={convertToLowercase}>lowercase</MenuItem>
           </Menu>
-        </div>
-      </Container>
+        </div>}
+      
     </React.Fragment>
   );
 };

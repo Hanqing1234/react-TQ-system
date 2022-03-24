@@ -6,14 +6,17 @@ import {
   Switch,
 } from "react-router-dom";
 
+import './App.css'
 //import Users from "./user/pages/Users";
 //import NewPlace from "./places/pages/NewPlace";
 //import UserPlaces from "./places/pages/UserPlaces";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import SideBar from "./shared/components/SideBar/SideBar";
 //import UpdatePlace from "./places/pages/UpdatePlace";
 //import Auth from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import { Container } from '@mui/material';
 
 const FAQ = React.lazy(() => import("./user/pages/FAQ"));
 const Users = React.lazy(() => import("./user/pages/User"));
@@ -90,7 +93,9 @@ const App = () => {
     >
       <Router>
         <MainNavigation />
-        <main>
+        <div className="container">
+        <SideBar />
+        <main style={{flex: 4}}>
           <Suspense
             fallback={
               <div className="center">
@@ -101,6 +106,7 @@ const App = () => {
             {routes}
           </Suspense>
         </main>
+        </div>
       </Router>
     </AuthContext.Provider>
   );

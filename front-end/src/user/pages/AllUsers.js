@@ -77,7 +77,7 @@ const AllUsers = () => {
 
   return (
     <React.Fragment>
-    <Container>
+    
     <div className="userList">
       <DataGrid
         rows={data}
@@ -85,7 +85,7 @@ const AllUsers = () => {
         columns={columns}
       />
     </div>
-    </Container>
+    
     </React.Fragment>
   );
 };
