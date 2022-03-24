@@ -11,7 +11,7 @@ const placeSchema = new Schema({
   ticket_status: { type: String, default: "1"},
   cust_name: { type: String, required: true },
   cust_email: { type: String, required: true },
-   create_date: {
+  create_date: {
      type: String,
      default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
    },

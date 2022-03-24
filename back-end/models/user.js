@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-
+const moment = require("moment");
 const Schema = mongoose.Schema;
 
 
@@ -9,7 +9,11 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, minlength: 6 },
     image: { type: String, required: true },
-    role: { type: String, default: "Admin"}
+    role: { type: String, default: "Admin"},
+    create_date: {
+        type: String,
+        default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
+      },
     //places: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Place'}]
 });
 

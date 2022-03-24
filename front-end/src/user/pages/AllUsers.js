@@ -35,7 +35,7 @@ const AllUsers = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 100 },
     {
       field: "name",
       headerName: "Name",
@@ -62,7 +62,7 @@ const AllUsers = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button to={"/product/" + params.row.id}>
+            <Button to={"/users/" + params.row.id}>
              Edit
             </Button>
             <DeleteOutline
