@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.17.8",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "babel-runtime": "^6.26.0",
     "file-loader": "^6.2.0"
   }
 }

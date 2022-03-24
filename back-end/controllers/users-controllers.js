@@ -5,6 +5,30 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 
+const getSingleUser = async (req, res, next) => {
+  const userId = req.params.pid;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not find a user.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!user) {
+    const error = new HttpError(
+      'Could not find a place for the provided id.',
+      404
+    );
+    return next(error);
+  }
+
+  res.json({ user: user.toObject({ getters: true }) });
+};
+
 const getUsers = async (req, res, next) => {
   let users;
   try {
@@ -98,6 +122,7 @@ const login = async (req, res, next) => {
   });
 };
 
+exports.getSingleUser = getSingleUser;
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;

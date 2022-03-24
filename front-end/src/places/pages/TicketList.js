@@ -44,7 +44,6 @@ const TicketList = () => {
     console.log(cellValues)
     setShowConfirmModal(true);
     setTicketRow(cellValues)
-    console.log(ticketRow)
   };
 
   const cancelDeleteHandler = () => {

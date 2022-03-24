@@ -22,6 +22,8 @@ const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
 const UserPlaces = React.lazy(() => import("./places/pages/UserPlaces"));
 const UpdatePlace = React.lazy(() => import("./places/pages/UpdatePlace"));
 const TicketList = React.lazy(() => import("./places/pages/TicketList"));
+const AllUsers = React.lazy(() => import("./user/pages/AllUsers"));
+const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,7 +45,10 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/users/all" exact>
-          <Users />
+          <AllUsers />
+        </Route>
+        <Route path="/users/:userId" exact>
+          <SingleUser />
         </Route>
         <Route path="/tickets/all" exact>
           <TicketList />
