@@ -54,10 +54,6 @@ const SideBar = () => {
               </li>
             </Link>
             <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
-            <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
               Reports
             </li>
