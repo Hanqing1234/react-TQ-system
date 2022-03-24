@@ -46,6 +46,9 @@ const App = () => {
 
   if (isLoggedIn) {
     routes = (
+      <div className="main-content">
+        <SideBar />
+        <div style={{flex: 4}}>
       <Switch>
         <Route path="/users/all" exact>
           <AllUsers />
@@ -61,6 +64,8 @@ const App = () => {
         </Route>
         <Redirect to="/users/all" />
       </Switch>
+      </div>
+      </div>
     );
   } else {
     routes = (
@@ -92,10 +97,8 @@ const App = () => {
       }}
     >
       <Router>
-        <MainNavigation />
-        <div className="container">
-        <SideBar />
-        <main style={{flex: 4}}>
+        <MainNavigation />   
+        <main>
           <Suspense
             fallback={
               <div className="center">
@@ -105,8 +108,7 @@ const App = () => {
           >
             {routes}
           </Suspense>
-        </main>
-        </div>
+        </main>     
       </Router>
     </AuthContext.Provider>
   );
