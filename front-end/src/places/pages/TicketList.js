@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
+import {Menu, MenuItem} from "@mui/material";
 import Button from "../../shared/components/FormElements/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-
 import "./TicketList.css";
 
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";

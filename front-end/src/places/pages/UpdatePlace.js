@@ -10,12 +10,9 @@ import Card from "../../shared/components/UIElements/Card";
 import { Image } from "antd";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
-import "./PlaceForm.css";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import "./PlaceForm.css";
+import {Radio, RadioGroup, FormControlLabel} from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
 
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
