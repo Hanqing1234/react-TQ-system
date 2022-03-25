@@ -43,7 +43,7 @@ const TicketList = () => {
             case "3" : item.ticket_status = "Finished"; break; 
           }         
         }
-        console.log(responseData.places.filter(changeStatusShowHandler))
+        responseData.places.filter(changeStatusShowHandler);
         setRows(responseData.places);
       } catch (err) {}
     };
