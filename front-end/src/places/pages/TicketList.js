@@ -35,7 +35,15 @@ const TicketList = () => {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
-
+        console.log(responseData.places);
+        const changeStatusShowHandler = (item) => {
+          switch (item.ticket_status) {
+            case "1" : item.ticket_status = "Not Started"; break;
+            case "2" : item.ticket_status = "In Progress"; break;
+            case "3" : item.ticket_status = "Finished"; break; 
+          }         
+        }
+        console.log(responseData.places.filter(changeStatusShowHandler))
         setRows(responseData.places);
       } catch (err) {}
     };

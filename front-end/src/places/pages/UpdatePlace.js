@@ -175,9 +175,9 @@ const UpdatePlace = () => {
               defaultValue={loadedPlace.place.ticket_status}
               onChange={changeRadio}
             >
-              <FormControlLabel value="1" control={<Radio />} label="1" />
-              <FormControlLabel value="2" control={<Radio />} label="2" />
-              <FormControlLabel value="3" control={<Radio />} label="3" />
+              <FormControlLabel value="1" control={<Radio />} label="Not Started" />
+              <FormControlLabel value="2" control={<Radio />} label="In Progress" />
+              <FormControlLabel value="3" control={<Radio />} label="Finished" />
             </RadioGroup>
           </Card>
 
