@@ -40,25 +40,21 @@ const UpdatePlace = () => {
     false
   );
 
-  console.log(formState.inputs);
   useEffect(() => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`
         );
-        console.log(responseData);
         setLoadedPlace(responseData);
         setStatus(responseData.place.ticket_status);
       } catch (err) {}
     };
     fetchPlace();
   }, [sendRequest, placeId, setFormData, setStatus]);
-  console.log(loadedPlace)
 
   const placeUpdateSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(status);
     console.log(formState.inputs);
     try {
       await sendRequest(
