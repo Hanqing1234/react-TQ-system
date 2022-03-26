@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {Menu, MenuItem} from "@mui/material";
+import { Menu, MenuItem} from "@mui/material";
 import Button from "../../shared/components/FormElements/Button";
+
 import "./TicketList.css";
 
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
@@ -37,7 +38,8 @@ const TicketList = () => {
           switch (item.ticket_status) {
             case "1" : item.ticket_status = "Not Started"; break;
             case "2" : item.ticket_status = "In Progress"; break;
-            case "3" : item.ticket_status = "Finished"; break; 
+            case "3" : item.ticket_status = "Finished"; break;
+            default : item.ticket_status = "unknown"; break; 
           }         
         }
         responseData.places.filter(changeStatusShowHandler);

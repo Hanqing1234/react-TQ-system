@@ -132,8 +132,7 @@ const SingleUser = () => {
                   <input
                     type="text"
                     placeholder={loadedUser.email}
-                    className="userUpdateInput"
-                    class="username"
+                    className="userUpdateInput username"                
                   />
                 )}
               </div>
@@ -143,8 +142,8 @@ const SingleUser = () => {
                   <input
                     type="text"
                     placeholder={loadedUser.name}
-                    className="userUpdateInput"
-                    class="fullName"
+                    className="userUpdateInput fullName"
+                   
                   />
                 )}
               </div>
@@ -154,8 +153,8 @@ const SingleUser = () => {
                   <input
                     type="text"
                     placeholder={loadedUser.email}
-                    className="userUpdateInput"
-                    class="email"
+                    className="userUpdateInput email"
+                   
                   />
                 )}
               </div>
@@ -164,8 +163,8 @@ const SingleUser = () => {
                 <input
                   type="text"
                   placeholder="+1 123 456 67"
-                  className="userUpdateInput"
-                  class="phoneNumber"
+                  className="userUpdateInput phoneNumber"
+                  
                 />
               </div>
               <div className="userUpdateItem">
@@ -173,8 +172,8 @@ const SingleUser = () => {
                 <input
                   type="text"
                   placeholder="Canada"
-                  className="userUpdateInput"
-                  class="address"
+                  className="userUpdateInput address"
+                 
                 />
               </div>
             </div>
