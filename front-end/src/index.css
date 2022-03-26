@@ -40,3 +40,6 @@ body {
   justify-content: center;
   align-items: center;
 }
+img[alt="Logo"]{
+  margin-top: 30px;
+}
