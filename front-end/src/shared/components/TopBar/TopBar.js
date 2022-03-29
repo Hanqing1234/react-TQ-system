@@ -30,7 +30,7 @@ const TopBar = () => {
             className="topAvatar"
           />
           <div>
-            <button onclick={auth.logout}>logout</button>
+            <button onClick={auth.logout}>logout</button>
           </div>
         </div>
       </div>

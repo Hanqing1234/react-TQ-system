@@ -34,13 +34,13 @@ const TicketList = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
         );
         console.log(responseData.places);
+        const ticket_status_show = {
+          "1": "Not Started",
+          "2": "In Progress",
+          "3": "Finished"
+        };
         const changeStatusShowHandler = (item) => {
-          switch (item.ticket_status) {
-            case "1" : item.ticket_status = "Not Started"; break;
-            case "2" : item.ticket_status = "In Progress"; break;
-            case "3" : item.ticket_status = "Finished"; break;
-            default : item.ticket_status = "unknown"; break; 
-          }         
+          item.ticket_status = ticket_status_show[item.ticket_status];
         }
         responseData.places.filter(changeStatusShowHandler);
         setRows(responseData.places);
