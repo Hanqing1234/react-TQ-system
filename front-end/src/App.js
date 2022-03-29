@@ -19,33 +19,22 @@ import { AuthContext } from "./shared/context/auth-context";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
 import { Container } from "@mui/material";
 
+import {useAuth} from './shared/hooks/auth-hook';
+
 const FAQ = React.lazy(() => import("./user/pages/FAQ"));
-const Users = React.lazy(() => import("./user/pages/User"));
 const Auth = React.lazy(() => import("./user/pages/Auth"));
 const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
-const UserPlaces = React.lazy(() => import("./places/pages/UserPlaces"));
 const UpdatePlace = React.lazy(() => import("./places/pages/UpdatePlace"));
 const TicketList = React.lazy(() => import("./places/pages/TicketList"));
 const AllUsers = React.lazy(() => import("./user/pages/AllUsers"));
 const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-    setUserId(null);
-  }, []);
+  const {token, login, logout, userId} = useAuth();
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <div>
       <TopBar />
@@ -97,7 +86,8 @@ const App = () => {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !!token,
+        token: token,
         userId: userId,
         login: login,
         logout: logout,
