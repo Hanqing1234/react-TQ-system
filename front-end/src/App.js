@@ -30,7 +30,7 @@ const AllUsers = React.lazy(() => import("./user/pages/AllUsers"));
 const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
 
 const App = () => {
-  const {token, login, logout, userId} = useAuth();
+  const {token, login, logout, userId, role} = useAuth();
 
   let routes;
 
@@ -89,6 +89,7 @@ const App = () => {
         isLoggedIn: !!token,
         token: token,
         userId: userId,
+        role: role,
         login: login,
         logout: logout,
       }}

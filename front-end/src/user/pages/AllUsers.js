@@ -8,12 +8,13 @@ import UsersList from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 
 import "./AllUsers.css";
 
 const AllUsers = () => {
   const [data, setData] = useState([]);
-
+  const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setLoadedUsers] = useState();
 
@@ -23,12 +24,14 @@ const AllUsers = () => {
         const responseData = await sendRequest(
           process.env.REACT_APP_BACKEND_URL + "/users/all"
         );
-        console.log(responseData);
+        console.log(responseData.users);
+        console.log(auth.role)
+        //responseData.users.filter()
         setData(responseData.users);
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest]);
+  }, [sendRequest, auth.role]);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -67,7 +70,7 @@ const AllUsers = () => {
             </Button>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => console.log(params.row)}
+              onClick={() => console.log(params.row.id)}
             />
           </>
         );

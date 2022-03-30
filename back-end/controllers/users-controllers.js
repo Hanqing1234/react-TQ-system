@@ -33,7 +33,6 @@ const getUsers = async (req, res, next) => {
   let users;
   try {
     users = await User.find({}, "-password");
-    console.log(users);
   } catch (err) {
     const error = new HttpError(
       "Fetching users failed, please try again later.",
@@ -167,6 +166,7 @@ const login = async (req, res, next) => {
   res.json({
     userId: existingUser.id,
     email: existingUser.email,
+    role: existingUser.role,
     token: token,
   });
 };

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import "./TopBar.css";
 import { NotificationsNone, Language, Settings } from "@mui/icons-material";
+import { Button } from '@mui/material';
 import { AuthContext } from "../../context/auth-context";
 
 const TopBar = () => {
@@ -30,7 +31,7 @@ const TopBar = () => {
             className="topAvatar"
           />
           <div>
-            <button onClick={auth.logout}>logout</button>
+            <Button onClick={auth.logout}>logout</Button>
           </div>
         </div>
       </div>
