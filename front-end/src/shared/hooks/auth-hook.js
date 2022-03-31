@@ -23,6 +23,7 @@ export const useAuth = () => {
         userId: uid,
         token: token,
         role: role,
+        image: image,
         expiration: tokenExpirationTime.toISOString(),
       })
     );
