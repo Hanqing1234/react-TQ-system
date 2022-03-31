@@ -26,7 +26,7 @@ const TopBar = () => {
             <Settings />
           </div>
           <img
-            src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            src={`${process.env.REACT_APP_ASSET_URL}/${auth.image}`}
             alt=""
             className="topAvatar"
           />

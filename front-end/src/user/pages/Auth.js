@@ -78,7 +78,7 @@ const Auth = (props) => {
           }
         );
         console.log(responseData)
-        auth.login(responseData.userId, responseData.token, responseData.role);
+        auth.login(responseData.userId, responseData.token, responseData.role, responseData.image);
       } catch (err) {}
     } else {
       try {
@@ -92,7 +92,7 @@ const Auth = (props) => {
           "POST",
           formData
         );      
-        auth.login(responseData.userId, responseData.token, responseData.role);
+        auth.login(responseData.userId, responseData.token, responseData.role, responseData.image);
       } catch (err) {}
     }
   };

@@ -167,6 +167,7 @@ const login = async (req, res, next) => {
     userId: existingUser.id,
     email: existingUser.email,
     role: existingUser.role,
+    image: existingUser.image,
     token: token,
   });
 };
