@@ -7,6 +7,8 @@ import { AuthContext } from "../../context/auth-context";
 const TopBar = () => {
   const auth = useContext(AuthContext);
 
+  console.log(auth.image)
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">

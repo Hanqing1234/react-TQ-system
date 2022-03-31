@@ -132,10 +132,9 @@ const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     title,
     description,
-    image: req.file.path,
+    image: req.file ? req.file.path : null,
     cust_name,
     cust_email
-    
   });
   console.log(createdPlace)
 

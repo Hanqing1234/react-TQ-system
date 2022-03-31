@@ -144,11 +144,12 @@ const UpdatePlace = () => {
             initialValid={true}
             disabled={true}
           />
-          <Card className="place-item__image">
+          {loadedPlace.place.image && <Card className="place-item__image">
             <Image
               src={`${process.env.REACT_APP_ASSET_URL}/${loadedPlace.place.image}`}
+              alt="1"
             />
-          </Card>
+          </Card>}
           <Input
             id="message"
             element="textarea"

@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DeleteOutline } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
 import Button from "../../shared/components/FormElements/Button";
 
-import UsersList from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -16,7 +14,6 @@ const AllUsers = () => {
   const [data, setData] = useState([]);
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const [loadedUsers, setLoadedUsers] = useState();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -80,7 +77,6 @@ const AllUsers = () => {
 
   return (
     <React.Fragment>
-    
     <div className="userList">
       <DataGrid
         rows={data}

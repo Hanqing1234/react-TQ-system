@@ -38,7 +38,7 @@ const NewPlace = () => {
       },    
       image: {
         value: null,
-        isValid: false,
+        isValid: true,
       },
     },
     false
@@ -48,7 +48,6 @@ const NewPlace = () => {
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState);
     console.log(formState.inputs); // send this to the backend
     try {
       const formData = new FormData();

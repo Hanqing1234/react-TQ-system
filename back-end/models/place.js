@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const placeSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   ticket_status: { type: String, default: "1"},
   cust_name: { type: String, required: true },
   cust_email: { type: String, required: true },
