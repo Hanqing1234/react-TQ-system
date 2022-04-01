@@ -80,7 +80,7 @@ const FAQ = () => {
 
     // will fetch by API in iteration 2 , in iteration 1, we play with dummyFAQs instead.
     dummyFAQs.map((item) => {
-      if (item.question.includes(userInput)) {
+      if (item.question.toUpperCase().includes(userInput.toUpperCase())) {
         matchingResult.push(item);
       }
     });
