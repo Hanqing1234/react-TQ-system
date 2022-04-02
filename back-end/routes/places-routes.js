@@ -4,7 +4,6 @@ const fileUpload = require("../middleware/file-upload");
 const placesControllers = require("../controllers/places-controllers");
 const router = express.Router();
 
-/* Ticket Get - all , byId and allForOneUser*/
 router.get("/all", placesControllers.getPlaces);
 router.get("/:pid", placesControllers.getTicket);
 router.get("/user/:uid", placesControllers.getPlacesByUserId);
@@ -23,11 +22,7 @@ router.post(
   ],
   placesControllers.createPlace
 );
-
-/* Ticket patch - editTicket */
 router.patch("/:pid", placesControllers.updatePlace);
-
-/* Ticket delete - deleteTicket */
 router.delete("/:pid", placesControllers.deletePlace);
 
 module.exports = router;

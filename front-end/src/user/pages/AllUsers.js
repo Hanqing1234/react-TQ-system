@@ -33,6 +33,16 @@ const AllUsers = () => {
   const deleteSingleUser = (id) => {
     const temp = data.filter((item) => item.id !== id);
     setData(temp);
+
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + `/users/${cellValues.row.id}`,
+        "DELETE"
+      );
+      setRows((prevTickets) =>
+        prevTickets.filter((ticket) => ticket.id !== cellValues.row.id)
+      );
+    } catch (err) {}
   };
 
   const columns = [
@@ -67,7 +77,6 @@ const AllUsers = () => {
         return (
           <>
             <Button to={"/users/" + params.row.id}>Edit</Button>
-
             <DeleteOutline
               onClick={() => {
                 deleteSingleUser(params.row.id);
