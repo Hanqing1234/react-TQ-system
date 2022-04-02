@@ -15,7 +15,6 @@ import "./user.css";
 const SingleUser = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUser, setLoadedUser] = useState();
-
   const userId = useParams().userId;
 
   useEffect(() => {
@@ -32,8 +31,6 @@ const SingleUser = () => {
   }, [sendRequest]);
 
   const userUpdateSubmitHandler = async (event) => {
-    event.preventDefault();
-    // console.log(status);
     // console.log(formState.inputs);
     // try {
     //   await sendRequest(
@@ -132,7 +129,7 @@ const SingleUser = () => {
                   <input
                     type="text"
                     placeholder={loadedUser.email}
-                    className="userUpdateInput username"                
+                    className="userUpdateInput username"
                   />
                 )}
               </div>
@@ -143,7 +140,6 @@ const SingleUser = () => {
                     type="text"
                     placeholder={loadedUser.name}
                     className="userUpdateInput fullName"
-                   
                   />
                 )}
               </div>
@@ -154,7 +150,6 @@ const SingleUser = () => {
                     type="text"
                     placeholder={loadedUser.email}
                     className="userUpdateInput email"
-                   
                   />
                 )}
               </div>
@@ -164,7 +159,6 @@ const SingleUser = () => {
                   type="text"
                   placeholder="+1 123 456 67"
                   className="userUpdateInput phoneNumber"
-                  
                 />
               </div>
               <div className="userUpdateItem">
@@ -173,7 +167,6 @@ const SingleUser = () => {
                   type="text"
                   placeholder="Canada"
                   className="userUpdateInput address"
-                 
                 />
               </div>
             </div>

@@ -22,7 +22,7 @@ const AllUsers = () => {
           process.env.REACT_APP_BACKEND_URL + "/users/all"
         );
         console.log(responseData.users);
-        console.log(auth.role)
+        console.log(auth.role);
         //responseData.users.filter()
         setData(responseData.users);
       } catch (err) {}
@@ -30,8 +30,9 @@ const AllUsers = () => {
     fetchUsers();
   }, [sendRequest, auth.role]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const deleteSingleUser = (id) => {
+    const temp = data.filter((item) => item.id !== id);
+    setData(temp);
   };
 
   const columns = [
@@ -43,7 +44,10 @@ const AllUsers = () => {
       renderCell: (params) => {
         return (
           <div>
-            <img className="userListImg" src={`${process.env.REACT_APP_ASSET_URL}/${params.row.image}`}  />
+            <img
+              className="userListImg"
+              src={`${process.env.REACT_APP_ASSET_URL}/${params.row.image}`}
+            />
             {params.row.name}
           </div>
         );
@@ -62,29 +66,25 @@ const AllUsers = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button to={"/users/" + params.row.id}>
-             Edit
-            </Button>
+            <Button to={"/users/" + params.row.id}>Edit</Button>
+
             <DeleteOutline
+              onClick={() => {
+                deleteSingleUser(params.row.id);
+              }}
               className="productListDelete"
-              onClick={() => console.log(params.row.id)}
             />
           </>
         );
-      }
-    }
+      },
+    },
   ];
 
   return (
     <React.Fragment>
-    <div className="userList">
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-      />
-    </div>
-    
+      <div className="userList">
+        <DataGrid rows={data} disableSelectionOnClick columns={columns} />
+      </div>
     </React.Fragment>
   );
 };

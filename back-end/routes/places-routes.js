@@ -1,28 +1,19 @@
-const express = require('express');
-const { check } = require('express-validator');
-
-const fileUpload = require('../middleware/file-upload');
-
-const placesControllers = require('../controllers/places-controllers');
-
+const express = require("express");
+const { check } = require("express-validator");
+const fileUpload = require("../middleware/file-upload");
+const placesControllers = require("../controllers/places-controllers");
 const router = express.Router();
 
-router.get('/all', placesControllers.getPlaces);
-
-router.get('/:pid', placesControllers.getTicket);
-
-router.get('/user/:uid', placesControllers.getPlacesByUserId);
-
-
-
+/* Ticket Get - all , byId and allForOneUser*/
+router.get("/all", placesControllers.getPlaces);
+router.get("/:pid", placesControllers.getTicket);
+router.get("/user/:uid", placesControllers.getPlacesByUserId);
 router.post(
-  '/all',
-  fileUpload.single('image'),
+  "/all",
+  fileUpload.single("image"),
   [
-    check('title')
-      .not()
-      .isEmpty(), 
-    check('description').isLength({ min: 5 }),
+    check("title").not().isEmpty(),
+    check("description").isLength({ min: 5 }),
     // check('cust_name')
     //  .not()
     //  .isEmpty(),
@@ -33,11 +24,10 @@ router.post(
   placesControllers.createPlace
 );
 
-router.patch(
-  '/:pid',
-  placesControllers.updatePlace
-);
+/* Ticket patch - editTicket */
+router.patch("/:pid", placesControllers.updatePlace);
 
-router.delete('/:pid', placesControllers.deletePlace);
+/* Ticket delete - deleteTicket */
+router.delete("/:pid", placesControllers.deletePlace);
 
 module.exports = router;

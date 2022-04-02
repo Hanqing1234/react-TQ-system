@@ -1,30 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Menu, MenuItem} from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import Button from "../../shared/components/FormElements/Button";
-
 import "./TicketList.css";
-
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-
 import { useHttpClient } from "../../shared/hooks/http-hook";
-
 import { AuthContext } from "../../shared/context/auth-context";
-
 import ModalTest from "../../shared/components/UIElements/ModalTest";
 
 const TicketList = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
   const [rows, setRows] = React.useState();
   const [selectedRow, setSelectedRow] = useState();
-
   const [contextMenu, setContextMenu] = useState(null);
-
   const [ticketRow, setTicketRow] = useState("");
 
   useEffect(() => {
@@ -35,13 +26,13 @@ const TicketList = () => {
         );
         console.log(responseData.places);
         const ticket_status_show = {
-          "1": "Not Started",
-          "2": "In Progress",
-          "3": "Finished"
+          1: "Not Started",
+          2: "In Progress",
+          3: "Finished",
         };
         const changeStatusShowHandler = (item) => {
           item.ticket_status = ticket_status_show[item.ticket_status];
-        }
+        };
         responseData.places.filter(changeStatusShowHandler);
         setRows(responseData.places);
       } catch (err) {}
@@ -50,9 +41,9 @@ const TicketList = () => {
   }, [sendRequest]);
 
   const showDeleteHandler = (cellValues) => {
-    console.log(cellValues)
+    console.log(cellValues);
     setShowConfirmModal(true);
-    setTicketRow(cellValues)
+    setTicketRow(cellValues);
   };
 
   const cancelDeleteHandler = () => {
@@ -70,7 +61,6 @@ const TicketList = () => {
         prevTickets.filter((ticket) => ticket.id !== cellValues.row.id)
       );
     } catch (err) {}
-    
   };
 
   const columns = [
@@ -121,10 +111,7 @@ const TicketList = () => {
       width: 100,
       renderCell: (cellValues) => {
         return (
-          <Button
-            danger
-            onClick={() => showDeleteHandler(cellValues)}
-          >
+          <Button danger onClick={() => showDeleteHandler(cellValues)}>
             Remove
           </Button>
         );
@@ -204,8 +191,9 @@ const TicketList = () => {
           <LoadingSpinner />
         </div>
       )}
-      
-        {!isLoading && <div style={{ height: 700, width: "100%" }}>
+
+      {!isLoading && (
+        <div style={{ height: 700, width: "100%" }}>
           {rows && (
             <DataGrid
               columns={columns}
@@ -239,8 +227,8 @@ const TicketList = () => {
             <MenuItem onClick={convertToUppercase}>UPPERCASE</MenuItem>
             <MenuItem onClick={convertToLowercase}>lowercase</MenuItem>
           </Menu>
-        </div>}
-      
+        </div>
+      )}
     </React.Fragment>
   );
 };

@@ -1,35 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
-
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-
 import Card from "../../shared/components/UIElements/Card";
 import { Image } from "antd";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-
 import "./PlaceForm.css";
-
-import { Radio, RadioGroup, FormControlLabel} from "@mui/material";
-
-
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
-
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 
 const UpdatePlace = () => {
   const placeId = useParams().placeId;
   const history = useHistory();
-
   const [loadedPlace, setLoadedPlace] = useState();
-
   const [status, setStatus] = useState();
-
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
@@ -144,12 +133,14 @@ const UpdatePlace = () => {
             initialValid={true}
             disabled={true}
           />
-          {loadedPlace.place.image && <Card className="place-item__image">
-            <Image
-              src={`${process.env.REACT_APP_ASSET_URL}/${loadedPlace.place.image}`}
-              alt="1"
-            />
-          </Card>}
+          {loadedPlace.place.image && (
+            <Card className="place-item__image">
+              <Image
+                src={`${process.env.REACT_APP_ASSET_URL}/${loadedPlace.place.image}`}
+                alt="1"
+              />
+            </Card>
+          )}
           <Input
             id="message"
             element="textarea"
@@ -170,9 +161,21 @@ const UpdatePlace = () => {
               defaultValue={loadedPlace.place.ticket_status}
               onChange={changeRadio}
             >
-              <FormControlLabel value="1" control={<Radio />} label="Not Started" />
-              <FormControlLabel value="2" control={<Radio />} label="In Progress" />
-              <FormControlLabel value="3" control={<Radio />} label="Finished" />
+              <FormControlLabel
+                value="1"
+                control={<Radio />}
+                label="Not Started"
+              />
+              <FormControlLabel
+                value="2"
+                control={<Radio />}
+                label="In Progress"
+              />
+              <FormControlLabel
+                value="3"
+                control={<Radio />}
+                label="Finished"
+              />
             </RadioGroup>
           </Card>
 
