@@ -74,6 +74,7 @@ const Auth = (props) => {
             password: formState.inputs.password.value,
           }),
           {
+            Authorization: 'Bearer ' + auth.token,
             "Content-Type": "application/json",
           }
         );
@@ -90,7 +91,10 @@ const Auth = (props) => {
         const responseData = await sendRequest(
           process.env.REACT_APP_BACKEND_URL + "/users/signup",
           "POST",
-          formData
+          formData,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );      
         auth.login(responseData.userId, responseData.token, responseData.role, responseData.image);
       } catch (err) {}

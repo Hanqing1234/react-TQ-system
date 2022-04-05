@@ -12,9 +12,9 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
-import "./PlaceItem.css";
+import "./TicketItem.css";
 
-const PlaceItem = (props) => {
+const TicketItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
 
@@ -47,7 +47,7 @@ const PlaceItem = (props) => {
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure"
-        footerClass="place-item__modal-actions"
+        footerClass="Ticket-item__modal-actions"
         footer={
           <React.Fragment>
             <Button inverse onClick={cancelDeleteHandler}>
@@ -62,21 +62,21 @@ const PlaceItem = (props) => {
         <p>Do you want to delete?</p>
       </ModalTest>
 
-      <li className="place-item">
-        <Card className="place-item__content">
+      <li className="Ticket-item">
+        <Card className="Ticket-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
-          <Card className="place-item__image">
+          <Card className="Ticket-item__image">
             <Image
               src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
               alt={props.title}
             />
           </Card>
-          <div className="place-item__info">
+          <div className="Ticket-item__info">
             <h2>{props.title}</h2>
             <h3>{props.address}</h3>
             <p>{props.description}</p>
           </div>
-          <div className="place-item__actions">
+          <div className="Ticket-item__actions">
             {auth && <Button to={`/tickets/${props.id}`}>DETAILS</Button>}
             {auth && (
               <Button danger onClick={showDeleteHandler}>
@@ -90,4 +90,4 @@ const PlaceItem = (props) => {
   );
 };
 
-export default PlaceItem;
+export default TicketItem;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   CalendarToday,
   LocationSearching,
@@ -9,10 +9,12 @@ import {
 } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import "./user.css";
 
 const SingleUser = () => {
+  const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUser, setLoadedUser] = useState();
   const userId = useParams().userId;
@@ -21,7 +23,12 @@ const SingleUser = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`
+          `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`,
+          "GET",
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
         console.log(responseData);
         setLoadedUser(responseData.user);
@@ -34,7 +41,7 @@ const SingleUser = () => {
     // console.log(formState.inputs);
     // try {
     //   await sendRequest(
-    //     `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`,
+    //     `${process.env.REACT_APP_BACKEND_URL}/tickets/${TicketId}`,
     //     "PATCH",
     //     JSON.stringify({
     //       message: formState.inputs.message.value,
@@ -128,7 +135,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    placeholder={loadedUser.email}
+                    ticketholder={loadedUser.email}
                     className="userUpdateInput username"
                   />
                 )}
@@ -138,7 +145,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    placeholder={loadedUser.name}
+                    ticketholder={loadedUser.name}
                     className="userUpdateInput fullName"
                   />
                 )}
@@ -148,7 +155,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    placeholder={loadedUser.email}
+                    ticketholder={loadedUser.email}
                     className="userUpdateInput email"
                   />
                 )}
@@ -157,7 +164,7 @@ const SingleUser = () => {
                 <label>Phone</label>
                 <input
                   type="text"
-                  placeholder="+1 123 456 67"
+                  ticketholder="+1 123 456 67"
                   className="userUpdateInput phoneNumber"
                 />
               </div>
@@ -165,7 +172,7 @@ const SingleUser = () => {
                 <label>Address</label>
                 <input
                   type="text"
-                  placeholder="Canada"
+                  ticketholder="Canada"
                   className="userUpdateInput address"
                 />
               </div>

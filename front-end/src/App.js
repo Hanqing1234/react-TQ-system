@@ -8,12 +8,12 @@ import {
 
 import "./App.css";
 //import Users from "./user/pages/Users";
-//import NewPlace from "./places/pages/NewPlace";
-//import UserPlaces from "./places/pages/UserPlaces";
+//import NewTicket from "./tickets/pages/NewTicket";
+//import UserTickets from "./tickets/pages/UserTickets";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import SideBar from "./shared/components/SideBar/SideBar";
 import TopBar from "./shared/components/TopBar/TopBar";
-//import UpdatePlace from "./places/pages/UpdatePlace";
+//import UpdateTicket from "./tickets/pages/UpdateTicket";
 //import Auth from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
@@ -23,9 +23,9 @@ import {useAuth} from './shared/hooks/auth-hook';
 
 const FAQ = React.lazy(() => import("./user/pages/FAQ"));
 const Auth = React.lazy(() => import("./user/pages/Auth"));
-const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
-const UpdatePlace = React.lazy(() => import("./places/pages/UpdatePlace"));
-const TicketList = React.lazy(() => import("./places/pages/TicketList"));
+const NewTicket = React.lazy(() => import("./tickets/pages/NewTicket"));
+const UpdateTicket = React.lazy(() => import("./tickets/pages/UpdateTicket"));
+const TicketList = React.lazy(() => import("./tickets/pages/TicketList"));
 const AllUsers = React.lazy(() => import("./user/pages/AllUsers"));
 const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
 
@@ -51,8 +51,8 @@ const App = () => {
             <Route path="/tickets/all" exact>
               <TicketList />
             </Route>
-            <Route path="/tickets/:placeId" exact>
-              <UpdatePlace />
+            <Route path="/tickets/:TicketId" exact>
+              <UpdateTicket />
             </Route>
             <Redirect to="/users/all" />
           </Switch>
@@ -68,11 +68,11 @@ const App = () => {
           <Route path="/" exact>
             <FAQ />
           </Route>
-          <Route path="/:userId/places" exact>
+          <Route path="/:userId/tickets" exact>
             <TicketList />
           </Route>
           <Route path="/tickets/new" exact>
-            <NewPlace />
+            <NewTicket />
           </Route>
           <Route path="/auth">
             <Auth />

@@ -19,7 +19,7 @@ const getSingleUser = async (req, res, next) => {
 
   if (!user) {
     const error = new HttpError(
-      "Could not find a place for the provided id.",
+      "Could not find a Ticket for the provided id.",
       404
     );
     return next(error);

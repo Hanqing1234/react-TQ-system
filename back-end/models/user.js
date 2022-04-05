@@ -14,7 +14,7 @@ const userSchema = new Schema({
         type: String,
         default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
       },
-    //places: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Place'}]
+    //tickets: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Ticket'}]
 });
 
 userSchema.plugin(uniqueValidator);

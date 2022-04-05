@@ -19,12 +19,17 @@ const TicketList = () => {
   const [ticketRow, setTicketRow] = useState("");
 
   useEffect(() => {
-    const fetchPlaces = async () => {
+    const fetchTickets = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/tickets/all`
+          `${process.env.REACT_APP_BACKEND_URL}/tickets/all`,
+          "GET",
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
-        console.log(responseData.places);
+        console.log(responseData.tickets);
         const ticket_status_show = {
           1: "Not Started",
           2: "In Progress",
@@ -33,11 +38,11 @@ const TicketList = () => {
         const changeStatusShowHandler = (item) => {
           item.ticket_status = ticket_status_show[item.ticket_status];
         };
-        responseData.places.filter(changeStatusShowHandler);
-        setRows(responseData.places);
+        responseData.tickets.filter(changeStatusShowHandler);
+        setRows(responseData.tickets);
       } catch (err) {}
     };
-    fetchPlaces();
+    fetchTickets();
   }, [sendRequest]);
 
   const showDeleteHandler = (cellValues) => {
@@ -55,7 +60,11 @@ const TicketList = () => {
     try {
       await sendRequest(
         process.env.REACT_APP_BACKEND_URL + `/tickets/${cellValues.row.id}`,
-        "DELETE"
+        "DELETE",
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token
+        }
       );
       setRows((prevTickets) =>
         prevTickets.filter((ticket) => ticket.id !== cellValues.row.id)
@@ -87,6 +96,11 @@ const TicketList = () => {
     {
       field: "ticket_status",
       headerName: "Status",
+      width: 140,
+    },
+    {
+      field: "closed_date",
+      headerName: "Closed Date",
       width: 140,
     },
     {
@@ -172,7 +186,7 @@ const TicketList = () => {
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure"
-        footerClass="place-item__modal-actions"
+        footerClass="Ticket-item__modal-actions"
         footer={
           <React.Fragment>
             <Button inverse onClick={cancelDeleteHandler}>

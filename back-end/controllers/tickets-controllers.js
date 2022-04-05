@@ -2,113 +2,114 @@ const uuid = require("uuid/v4");
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const HttpError = require("../models/http-error");
-const Place = require("../models/place");
+const Ticket = require("../models/ticket");
 const User = require("../models/user");
+const moment = require("moment");
 const fs = require("fs");
 //const getCoordsForAddress = require('../util/location');
 
 const getTicket = async (req, res, next) => {
-  const placeId = req.params.pid;
-  let place;
+  const TicketId = req.params.pid;
+  let ticket;
   try {
-    place = await Place.findById(placeId);
+    ticket = await Ticket.findById(TicketId);
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not find a place.",
+      "Something went wrong, could not find a Ticket.",
       500
     );
     return next(error);
   }
 
-  if (!place) {
+  if (!ticket) {
     const error = new HttpError(
-      "Could not find a place for the provided id.",
+      "Could not find a Ticket for the provided id.",
       404
     );
     return next(error);
   }
 
-  res.json({ place: place.toObject({ getters: true }) });
+  res.json({ ticket: ticket.toObject({ getters: true }) });
 };
 
-const getPlaces = async (req, res, next) => {
-  let place;
+const getTickets = async (req, res, next) => {
+  let ticket;
   try {
-    place = await Place.find({});
+    ticket = await Ticket.find({});
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong111111, could not find a place.",
+      "Something went wrong111111, could not find a Ticket.",
       500
     );
     return next(error);
   }
 
-  if (!place) {
+  if (!ticket) {
     const error = new HttpError(
-      "Could not find a place for the provided id.",
+      "Could not find a Ticket for the provided id.",
       404
     );
     return next(error);
   }
-  console.log(place);
-  res.json({ places: place.map((place) => place.toObject({ getters: true })) });
+  console.log(ticket);
+  res.json({ tickets: ticket.map((Ticket) => Ticket.toObject({ getters: true })) });
 };
 
-const getPlaceById = async (req, res, next) => {
-  const placeId = req.params.pid;
+const getTicketById = async (req, res, next) => {
+  const TicketId = req.params.pid;
 
-  let place;
+  let ticket;
   try {
-    place = await Place.findById(placeId);
+    ticket = await Ticket.findById(TicketId);
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not find a place.",
+      "Something went wrong, could not find a Ticket.",
       500
     );
     return next(error);
   }
 
-  if (!place) {
+  if (!ticket) {
     const error = new HttpError(
-      "Could not find a place for the provided id.",
+      "Could not find a Ticket for the provided id.",
       404
     );
     return next(error);
   }
 
-  res.json({ place: place.toObject({ getters: true }) });
+  res.json({ ticket: ticket.toObject({ getters: true }) });
 };
 
-const getPlacesByUserId = async (req, res, next) => {
+const getTicketsByUserId = async (req, res, next) => {
   const userId = req.params.uid;
 
-  // let places;
-  let userWithPlaces;
+  // let tickets;
+  let userWithTickets;
   try {
-    userWithPlaces = await User.findById(userId).populate("places");
+    userWithTickets = await User.findById(userId).populate("tickets");
   } catch (err) {
     const error = new HttpError(
-      "Fetching places failed, please try again later",
+      "Fetching tickets failed, please try again later",
       500
     );
     return next(error);
   }
 
-  // if (!places || places.length === 0) {
-  if (!userWithPlaces || userWithPlaces.places.length === 0) {
+  // if (!tickets || tickets.length === 0) {
+  if (!userWithTickets || userWithTickets.tickets.length === 0) {
     return next(
-      new HttpError("Could not find places for the provided user id.", 404)
+      new HttpError("Could not find tickets for the provided user id.", 404)
     );
   }
 
   res.json({
-    places: userWithPlaces.places.map((place) =>
-      place.toObject({ getters: true })
+    tickets: userWithTickets.tickets.map((Ticket) =>
+      Ticket.toObject({ getters: true })
     ),
   });
 };
 
-const createPlace = async (req, res, next) => {
+const createTicket = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -128,34 +129,34 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }*/
 
-  const createdPlace = new Place({
+  const createdTicket = new Ticket({
     title,
     description,
     image: req.file ? req.file.path : null,
     cust_name,
     cust_email,
   });
-  console.log(createdPlace);
+  console.log(createdTicket);
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    await createdPlace.save({ session: sess });
-    //user.places.push(createdPlace);
+    await createdTicket.save({ session: sess });
+    //user.tickets.push(createdTicket);
     //await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      "Creating place failed, please try again.",
+      "Creating Ticket failed, please try again.",
       500
     );
     return next(error);
   }
 
-  res.status(201).json({ place: createdPlace });
+  res.status(201).json({ Ticket: createdTicket });
 };
 
-const updatePlace = async (req, res, next) => {
+const updateTicket = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -171,10 +172,10 @@ const updatePlace = async (req, res, next) => {
 
   let ticket;
   try {
-    ticket = await Place.findById(ticketId);
+    ticket = await Ticket.findById(ticketId);
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not update place.",
+      "Something went wrong, could not update Ticket.",
       500
     );
     return next(error);
@@ -182,12 +183,15 @@ const updatePlace = async (req, res, next) => {
 
   ticket.message = message;
   ticket.ticket_status = ticket_status;
+  if (ticket.ticket_status == 3) {
+    ticket.closed_date = moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss")
+  }
 
   try {
     await ticket.save();
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not update place.",
+      "Something went wrong, could not update Ticket.",
       500
     );
     return next(error);
@@ -196,39 +200,39 @@ const updatePlace = async (req, res, next) => {
   res.status(200).json({ ticket: ticket.toObject({ getters: true }) });
 };
 
-const deletePlace = async (req, res, next) => {
-  const placeId = req.params.pid;
-  console.log(placeId);
-  let place;
+const deleteTicket = async (req, res, next) => {
+  const TicketId = req.params.pid;
+  console.log(TicketId);
+  let ticket;
   try {
-    place = await Place.findById(placeId);
+    ticket = await Ticket.findById(TicketId);
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not delete place.",
+      "Something went wrong, could not delete Ticket.",
       500
     );
     return next(error);
   }
 
-  if (!place) {
-    const error = new HttpError("Could not find place for this id.", 404);
+  if (!ticket) {
+    const error = new HttpError("Could not find Ticket for this id.", 404);
     return next(error);
   }
 
-  const imagePath = place.image;
-  console.log(place);
+  const imagePath = ticket.image;
+  console.log(ticket);
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    await place.remove({ session: sess });
-    Place.remove({ place });
-    //place.creator.places.pull(place);
-    //await place.creator.save({ session: sess });
+    await ticket.remove({ session: sess });
+    ticket.remove({ ticket: ticket });
+    //Ticket.creator.tickets.pull(Ticket);
+    //await Ticket.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not delete place.",
+      "Something went wrong, could not delete Ticket.",
       500
     );
     return next(error);
@@ -238,13 +242,13 @@ const deletePlace = async (req, res, next) => {
     console.log(err);
   });
 
-  res.status(200).json({ message: "Deleted place." });
+  res.status(200).json({ message: "Deleted Ticket." });
 };
 
 exports.getTicket = getTicket;
-exports.getPlaces = getPlaces;
-exports.getPlaceById = getPlaceById;
-exports.getPlacesByUserId = getPlacesByUserId;
-exports.createPlace = createPlace;
-exports.updatePlace = updatePlace;
-exports.deletePlace = deletePlace;
+exports.getTickets = getTickets;
+exports.getTicketById = getTicketById;
+exports.getTicketsByUserId = getTicketsByUserId;
+exports.createTicket = createTicket;
+exports.updateTicket = updateTicket;
+exports.deleteTicket = deleteTicket;
