@@ -31,7 +31,7 @@ const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
 const NewUser = React.lazy(() => import("./user/pages/NewUser"));
 
 const App = () => {
-  const { token, login, logout, userId, role, image } = useAuth();
+  const { token, login, logout, userId, role, image, name } = useAuth();
 
   let routes;
 console.log(routes);
@@ -116,6 +116,7 @@ console.log(routes);
         token: token,
         userId: userId,
         role: role,
+        name: name,
         image: image,
         login: login,
         logout: logout,

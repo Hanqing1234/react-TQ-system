@@ -16,7 +16,7 @@ const TicketList = () => {
   const [rows, setRows] = React.useState();
   const [selectedRow, setSelectedRow] = useState();
   const [contextMenu, setContextMenu] = useState(null);
-  const [ticketRow, setTicketRow] = useState("");
+  const [ticketRow, setTicketRow] = useState();
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -26,10 +26,22 @@ const TicketList = () => {
           "GET",
           null,
           {
-            Authorization: 'Bearer ' + auth.token
+            Authorization: "Bearer " + auth.token,
           }
         );
-        console.log(responseData.tickets);
+
+        let ticketList;
+        console.log(auth.name)
+        if (auth.role === "Admin") {
+          ticketList = responseData.tickets;
+        } else {
+          ticketList = responseData.tickets.filter(
+            (item) => item.assignee === auth.name
+          );
+        }
+
+        console.log(ticketList);
+
         const ticket_status_show = {
           1: "Not Started",
           2: "In Progress",
@@ -38,12 +50,12 @@ const TicketList = () => {
         const changeStatusShowHandler = (item) => {
           item.ticket_status = ticket_status_show[item.ticket_status];
         };
-        responseData.tickets.filter(changeStatusShowHandler);
-        setRows(responseData.tickets);
+        ticketList.filter(changeStatusShowHandler);
+        setRows(ticketList);
       } catch (err) {}
     };
     fetchTickets();
-  }, [sendRequest]);
+  }, [sendRequest, auth.name, auth.role, auth.token]);
 
   const showDeleteHandler = (cellValues) => {
     console.log(cellValues);
@@ -63,7 +75,7 @@ const TicketList = () => {
         "DELETE",
         null,
         {
-          Authorization: 'Bearer ' + auth.token
+          Authorization: "Bearer " + auth.token,
         }
       );
       setRows((prevTickets) =>
@@ -72,8 +84,8 @@ const TicketList = () => {
     } catch (err) {}
   };
 
-  let removeBtn = '';
-  if(auth.role === "Admin") {
+  let removeBtn;
+  if (auth.role === "Admin") {
     removeBtn = {
       field: "remove",
       headerName: "",
@@ -85,11 +97,13 @@ const TicketList = () => {
           </Button>
         );
       },
-    }
+    };
+  } else {
+    removeBtn = { field: "remove", headerName: "", width: 100 };
   }
 
   const columns = [
-   { 
+    {
       field: "cust_name",
       headerName: "Name",
       width: 120,
@@ -98,7 +112,8 @@ const TicketList = () => {
       field: "title",
       headerName: "Title",
       width: 120,
-    },,
+    },
+    ,
     {
       field: "description",
       headerName: "Description",
@@ -220,7 +235,7 @@ const TicketList = () => {
         <div style={{ height: 700, width: "100%" }}>
           {rows && (
             <DataGrid
-            disableVirtualization
+              disableVirtualization
               columns={columns}
               rows={rows}
               componentsProps={{

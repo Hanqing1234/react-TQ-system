@@ -63,7 +63,7 @@ const Auth = (props) => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
-    if (isLoginMode) {
+    
       try {
         const responseData = await sendRequest(
           process.env.REACT_APP_BACKEND_URL + "/users/login",
@@ -78,27 +78,8 @@ const Auth = (props) => {
           }
         );
         console.log(responseData)
-        auth.login(responseData.userId, responseData.token, responseData.role, responseData.image);
-      } catch (err) {}
-    } else {
-      try {
-        const formData = new FormData();
-        formData.append("email", formState.inputs.email.value);
-        formData.append("name", formState.inputs.name.value);
-        formData.append("password", formState.inputs.password.value);
-        formData.append("image", formState.inputs.image.value);
-        console.log(formData)
-        const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users/signup",
-          "POST",
-          formData,
-          {
-            Authorization: 'Bearer ' + auth.token
-          }
-        );      
-        auth.login(responseData.userId, responseData.token, responseData.role, responseData.image);
-      } catch (err) {}
-    }
+        auth.login(responseData.userId, responseData.token, responseData.role, responseData.image, responseData.name);
+      } catch (err) {}   
   };
 
   return (
@@ -106,9 +87,9 @@ const Auth = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
-        <h8>username: admin@admin.com</h8>
-        <h8>password: aaaaaa</h8>
+        <h1>Login Required</h1>
+        <h6>username: admin@admin.com</h6>
+        <h6>password: aaaaaa</h6>
         <hr />
         <form onSubmit={authSubmitHandler}>
           <Input
