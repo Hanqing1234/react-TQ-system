@@ -32,7 +32,7 @@ const TicketList = () => {
 
         let ticketList;
         console.log(auth.name)
-        if (auth.role === "Admin") {
+        if (auth.role === "Admin" || auth.role === "Representative") {
           ticketList = responseData.tickets;
         } else {
           ticketList = responseData.tickets.filter(
