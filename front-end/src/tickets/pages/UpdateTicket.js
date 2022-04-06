@@ -221,7 +221,7 @@ const UpdateTicket = () => {
           >
             {user.filter(user => user.role !== ("Admin" || "Representative"))
               .map((user) => (
-              <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
+              <MenuItem key={user.id} value={user.name}>{user.name}</MenuItem>
               ))}
 
           </Select>

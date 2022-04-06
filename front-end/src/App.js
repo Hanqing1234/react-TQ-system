@@ -35,7 +35,7 @@ const App = () => {
 
   let routes;
 console.log(routes);
-  if (token) {
+  if (token && role ==='Admin') {
     routes = (
       <div>
         <TopBar />
@@ -59,6 +59,27 @@ console.log(routes);
                 <UpdateTicket />
               </Route>
               <Redirect to="/users/all" />
+            </Switch>
+          </div>
+
+        </div>
+      </div>
+    );
+  } else if (token && role !=='Admin'){
+    routes = (
+      <div>
+        <TopBar />
+        <div className="main-content">
+          <SideBar />
+          <div style={{ flex: 4 }}>
+            <Switch>              
+              <Route path="/tickets/all" exact>
+                <TicketList />
+              </Route>
+              <Route path="/tickets/:ticketId" exact>
+                <UpdateTicket />
+              </Route>
+              <Redirect to="/tickets/all" />
             </Switch>
           </div>
 

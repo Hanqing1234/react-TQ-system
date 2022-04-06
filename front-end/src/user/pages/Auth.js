@@ -58,7 +58,6 @@ const Auth = (props) => {
         false
       );
     }
-    setIsLoginMode((prevMode) => !prevMode);
   };
 
   const authSubmitHandler = async (event) => {
@@ -108,22 +107,10 @@ const Auth = (props) => {
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
+        <h8>username: admin@admin.com</h8>
+        <h8>password: aaaaaa</h8>
         <hr />
         <form onSubmit={authSubmitHandler}>
-          {!isLoginMode && (
-            <Input
-              element="input"
-              id="name"
-              type="text"
-              label="Your Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="PLEASE ENTER NAME"
-              onInput={inputHandler}
-            />
-          )}
-          {!isLoginMode && (
-            <ImageUpload center id="image" onInput={inputHandler} />
-          )}
           <Input
             element="input"
             id="email"
@@ -143,12 +130,9 @@ const Auth = (props) => {
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>
-            {isLoginMode ? "LOGIN" : "SIGNUP"}
+             LOGIN
           </Button>
         </form>
-        <Button inverse onClick={switchModeHandler}>
-          SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-        </Button>
       </Card>
     </React.Fragment>
   );

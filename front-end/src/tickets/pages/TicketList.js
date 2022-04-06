@@ -72,22 +72,33 @@ const TicketList = () => {
     } catch (err) {}
   };
 
+  let removeBtn = '';
+  if(auth.role === "Admin") {
+    removeBtn = {
+      field: "remove",
+      headerName: "",
+      width: 100,
+      renderCell: (cellValues) => {
+        return (
+          <Button danger onClick={() => showDeleteHandler(cellValues)}>
+            Remove
+          </Button>
+        );
+      },
+    }
+  }
+
   const columns = [
-    {
+   { 
       field: "cust_name",
       headerName: "Name",
       width: 120,
     },
     {
-      field: "cust_email",
-      headerName: "Email",
-      width: 140,
-    },
-    {
       field: "title",
       headerName: "Title",
       width: 120,
-    },
+    },,
     {
       field: "description",
       headerName: "Description",
@@ -96,6 +107,11 @@ const TicketList = () => {
     {
       field: "ticket_status",
       headerName: "Status",
+      width: 140,
+    },
+    {
+      field: "assignee",
+      headerName: "Assignee",
       width: 140,
     },
     {
@@ -124,18 +140,7 @@ const TicketList = () => {
         );
       },
     },
-    {
-      field: "remove",
-      headerName: "",
-      width: 100,
-      renderCell: (cellValues) => {
-        return (
-          <Button danger onClick={() => showDeleteHandler(cellValues)}>
-            Remove
-          </Button>
-        );
-      },
-    },
+    removeBtn,
   ];
 
   const handleContextMenu = (event) => {
