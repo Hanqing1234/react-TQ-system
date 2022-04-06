@@ -19,7 +19,12 @@ const AllUsers = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users/all"
+          process.env.REACT_APP_BACKEND_URL + "/users/all",
+          "GET",
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
         console.log(responseData.users);
         console.log(auth.role);

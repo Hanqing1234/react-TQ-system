@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import "./PlaceForm.css";
+import "./TicketForm.css";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -15,7 +15,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { message } from 'antd';
 
-const NewPlace = () => {
+const NewTicket = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler] = useForm(
@@ -46,7 +46,7 @@ const NewPlace = () => {
 
   const history = useHistory();
 
-  const placeSubmitHandler = async (event) => {
+  const TicketSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(formState.inputs); // send this to the backend
     try {
@@ -56,7 +56,9 @@ const NewPlace = () => {
       formData.append("cust_name", formState.inputs.cust_name.value);
       formData.append("cust_email", formState.inputs.cust_email.value);
       formData.append("image", formState.inputs.image.value);
-      await sendRequest(process.env.REACT_APP_BACKEND_URL + "/tickets/all", "POST", formData);
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + "/tickets/all", "POST", formData, {
+        Authorization: 'Bearer ' + auth.token
+      });
       //Redirect the user to a different page
       history.push("/");
     } catch (err) {}
@@ -68,7 +70,7 @@ const NewPlace = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <form className="place-form new-place__form" onSubmit={placeSubmitHandler}>
+      <form className="Ticket-form new-Ticket__form" onSubmit={TicketSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
         <Input
           id="cust_name"
@@ -112,11 +114,11 @@ const NewPlace = () => {
           errorText="Please input an image"
         />
         <Button type="submit" disabled={!formState.isValid} onClick={success}>
-          ADD PLACE
+          ADD Ticket
         </Button>
       </form>
     </React.Fragment>
   );
 };
 
-export default NewPlace;
+export default NewTicket;

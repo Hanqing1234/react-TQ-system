@@ -5,8 +5,10 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const User = () => {
+  const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setLoadedUsers] = useState();
 
@@ -14,7 +16,12 @@ const User = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users/all"
+          process.env.REACT_APP_BACKEND_URL + "/users/all",
+          "GET",
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
         console.log(responseData)
         setLoadedUsers(responseData.users);

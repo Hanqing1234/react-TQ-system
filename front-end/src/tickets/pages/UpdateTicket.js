@@ -8,15 +8,17 @@ import Card from "../../shared/components/UIElements/Card";
 import { Image } from "antd";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import "./PlaceForm.css";
+import { AuthContext } from "../../shared/context/auth-context";
+import "./TicketForm.css";
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 
-const UpdatePlace = () => {
-  const placeId = useParams().placeId;
+const UpdateTicket = () => {
+  const auth = useContext(AuthContext);
+  const TicketId = useParams().TicketId;
   const history = useHistory();
-  const [loadedPlace, setLoadedPlace] = useState();
+  const [loadedTicket, setLoadedTicket] = useState();
   const [status, setStatus] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
@@ -30,24 +32,29 @@ const UpdatePlace = () => {
   );
 
   useEffect(() => {
-    const fetchPlace = async () => {
+    const fetchTicket = async () => {
       try {
         const responseData = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`
+          `${process.env.REACT_APP_BACKEND_URL}/tickets/${TicketId}`,
+          "GET",
+          null,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
-        setLoadedPlace(responseData);
-        setStatus(responseData.place.ticket_status);
+        setLoadedTicket(responseData);
+        setStatus(responseData.Ticket.ticket_status);
       } catch (err) {}
     };
-    fetchPlace();
-  }, [sendRequest, placeId, setFormData, setStatus]);
+    fetchTicket();
+  }, [sendRequest, TicketId, setFormData, setStatus]);
 
-  const placeUpdateSubmitHandler = async (event) => {
+  const TicketUpdateSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(formState.inputs);
     try {
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/tickets/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/tickets/${TicketId}`,
         "PATCH",
         JSON.stringify({
           message: formState.inputs.message.value,
@@ -55,6 +62,7 @@ const UpdatePlace = () => {
         }),
         {
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + auth.token,
         }
       );
       history.push("/tickets/all");
@@ -69,14 +77,14 @@ const UpdatePlace = () => {
     );
   }
 
-  if (!loadedPlace && !error) {
+  if (!loadedTicket && !error) {
     return (
       <div className="center">
-        <h2>Could not find place!</h2>
+        <h2>Could not find Ticket!</h2>
       </div>
     );
   }
-  console.log(loadedPlace);
+  console.log(loadedTicket);
   const changeRadio = (event) => {
     console.log(event.target.value);
     setStatus(event.target.value);
@@ -84,8 +92,8 @@ const UpdatePlace = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {!isLoading && loadedPlace && (
-        <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
+      {!isLoading && loadedTicket && (
+        <form className="Ticket-form" onSubmit={TicketUpdateSubmitHandler}>
           <Input
             id="cust_name"
             element="input"
@@ -94,7 +102,7 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid name."
             onInput={inputHandler}
-            initialValue={loadedPlace.place.cust_name}
+            initialValue={loadedTicket.ticket.cust_name}
             initialValid={true}
             disabled={true}
           />
@@ -106,7 +114,7 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid title."
             onInput={inputHandler}
-            initialValue={loadedPlace.place.cust_email}
+            initialValue={loadedTicket.ticket.cust_email}
             initialValid={true}
             disabled={true}
           />
@@ -118,7 +126,7 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid title."
             onInput={inputHandler}
-            initialValue={loadedPlace.place.title}
+            initialValue={loadedTicket.ticket.title}
             initialValid={true}
             disabled={true}
           />
@@ -129,14 +137,14 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid description (min. 5 characters)."
             onInput={inputHandler}
-            initialValue={loadedPlace.place.description}
+            initialValue={loadedTicket.ticket.description}
             initialValid={true}
             disabled={true}
           />
-          {loadedPlace.place.image && (
-            <Card className="place-item__image">
+          {loadedTicket.ticket.image && (
+            <Card className="Ticket-item__image">
               <Image
-                src={`${process.env.REACT_APP_ASSET_URL}/${loadedPlace.place.image}`}
+                src={`${process.env.REACT_APP_ASSET_URL}/${loadedTicket.ticket.image}`}
                 alt="1"
               />
             </Card>
@@ -148,17 +156,17 @@ const UpdatePlace = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a message"
             onInput={inputHandler}
-            initialValue={loadedPlace.place.message}
+            initialValue={loadedTicket.ticket.message}
             initialValid={true}
             disabled={false}
           />
-          <Card className="place-item__radio">
+          <Card className="Ticket-item__radio">
             <FormLabel id="status">Status</FormLabel>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="ticket_status"
-              defaultValue={loadedPlace.place.ticket_status}
+              defaultValue={loadedTicket.ticket.ticket_status}
               onChange={changeRadio}
             >
               <FormControlLabel
@@ -180,7 +188,7 @@ const UpdatePlace = () => {
           </Card>
 
           <Button type="submit" disabled={!formState.isValid}>
-            UPDATE PLACE
+            UPDATE Ticket
           </Button>
         </form>
       )}
@@ -188,4 +196,4 @@ const UpdatePlace = () => {
   );
 };
 
-export default UpdatePlace;
+export default UpdateTicket;
