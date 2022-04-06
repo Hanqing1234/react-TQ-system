@@ -13,15 +13,14 @@ const TicketSchema = new Schema({
   cust_email: { type: String, required: true },
   create_date: {
      type: String,
-     default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
+     default: moment(new Date(Date.now())).format("YYYY-MM-DD"),
    },
   message: { type: String, default: ""},
   closed_date: {
     type: String,
     default: "",
   },
-
-
+  assignee: { type: String, default: ""}
 
 });
 

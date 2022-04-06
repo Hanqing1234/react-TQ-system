@@ -30,14 +30,12 @@ const AllUsers = () => {
             Authorization: 'Bearer ' + auth.token
           }
         );
-        console.log(responseData.users);
-        console.log(auth.role);
         //responseData.users.filter()
         setData(responseData.users);
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest, auth.role]);
+  }, [sendRequest]);
 
   const showDeleteHandler = (cellValues) => {
     console.log(cellValues);
@@ -89,7 +87,7 @@ const AllUsers = () => {
     {
       field: "role",
       headerName: "Role",
-      width: 120,
+      width: 200,
     },
     {
       field: "action",
@@ -98,13 +96,13 @@ const AllUsers = () => {
       renderCell: (params) => {
         return (
           <React.Fragment>
-            <Button to={"/users/" + params.row.id}>Edit</Button>
-            <DeleteOutline
+            {auth.role === "Admin" && <Button to={"/users/" + params.row.id}>Edit</Button>}
+            {auth.role === "Admin" && <DeleteOutline
               onClick={() => {
                 showDeleteHandler(params);
               }}
               className="productListDelete"
-            />
+            />}
           </React.Fragment>
         );
       },

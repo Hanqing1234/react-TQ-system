@@ -11,7 +11,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import { AuthContext } from "../../shared/context/auth-context";
 import "./TicketForm.css";
-import { Radio, RadioGroup, FormControlLabel, FormLabel } from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel, FormLabel, InputLabel, MenuItem,FormControl, Select } from "@mui/material";
 
 
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
@@ -19,10 +19,11 @@ import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 const UpdateTicket = () => {
   const auth = useContext(AuthContext);
   const TicketId = useParams().ticketId;
-  console.log(useParams())
   const history = useHistory();
-  const [loadedTicket, setLoadedTicket] = useState();
+  const [loadedTicket, setLoadedTicket] = useState('');
   const [status, setStatus] = useState();
+  const [assignee, setAssignee] = React.useState('');
+  const [user, setUser] = React.useState('');
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -52,9 +53,22 @@ const UpdateTicket = () => {
     fetchTicket();
   }, [sendRequest, TicketId, setFormData, setStatus]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          process.env.REACT_APP_BACKEND_URL + "/users/all"
+        );
+        //responseData.users.filter()
+        setUser(responseData.users);
+      } catch (err) {}
+    };
+    fetchUsers();
+  }, [sendRequest]);
+
   const TicketUpdateSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+    console.log(assignee);
     try {
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/tickets/${TicketId}`,
@@ -62,6 +76,7 @@ const UpdateTicket = () => {
         JSON.stringify({
           message: formState.inputs.message.value,
           ticket_status: status,
+          assignee: assignee,
         }),
         {
           "Content-Type": "application/json",
@@ -87,11 +102,15 @@ const UpdateTicket = () => {
       </div>
     );
   }
-  console.log(loadedTicket);
   const changeRadio = (event) => {
     console.log(event.target.value);
     setStatus(event.target.value);
   };
+
+  const assigneeChange = (event) => {
+    setAssignee(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -190,6 +209,24 @@ const UpdateTicket = () => {
             </RadioGroup>
           </Card>
 
+          <Card className="Ticket-item__radio">
+          <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Assignee</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={assignee}
+            label="Assignee"
+            onChange={assigneeChange}
+          >
+            {user.filter(user => user.role !== ("Admin" || "Representative"))
+              .map((user) => (
+              <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
+              ))}
+
+          </Select>
+        </FormControl>
+        </Card>
           <Button type="submit" disabled={!formState.isValid}>
             UPDATE Ticket
           </Button>

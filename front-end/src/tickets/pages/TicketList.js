@@ -76,7 +76,7 @@ const TicketList = () => {
     {
       field: "cust_name",
       headerName: "Name",
-      width: 140,
+      width: 120,
     },
     {
       field: "cust_email",
@@ -86,7 +86,7 @@ const TicketList = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 140,
+      width: 120,
     },
     {
       field: "description",
@@ -96,6 +96,11 @@ const TicketList = () => {
     {
       field: "ticket_status",
       headerName: "Status",
+      width: 140,
+    },
+    {
+      field: "create_date",
+      headerName: "Create Date",
       width: 140,
     },
     {

@@ -120,7 +120,7 @@ const createTicket = async (req, res, next) => {
     );
   }
 
-  const { title, description, cust_name, cust_email } = req.body;
+  const { title, description, cust_name, cust_email, message, assignee} = req.body;
   console.log(req.body);
   /*let coordinates;
   try {
@@ -135,6 +135,8 @@ const createTicket = async (req, res, next) => {
     image: req.file ? req.file.path : null,
     cust_name,
     cust_email,
+    message,
+    assignee
   });
   console.log(createdTicket);
 
@@ -167,7 +169,7 @@ const updateTicket = async (req, res, next) => {
     );
   }
   console.log(req);
-  const { message, ticket_status } = req.body;
+  const { message, ticket_status, assignee } = req.body;
   const ticketId = req.params.pid;
 
   let ticket;
@@ -183,8 +185,10 @@ const updateTicket = async (req, res, next) => {
 
   ticket.message = message;
   ticket.ticket_status = ticket_status;
-  if (ticket.ticket_status == 3) {
-    ticket.closed_date = moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss")
+  ticket.assignee = assignee;
+
+  if (ticket.ticket_status === "3") {
+    ticket.closed_date = moment(new Date(Date.now())).format("YYYY-MM-DD")
   }
 
   try {
