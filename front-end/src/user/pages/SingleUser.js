@@ -7,6 +7,11 @@ import {
   PhoneAndroid,
   Publish,
 } from "@mui/icons-material";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 import { Link, useParams } from "react-router-dom";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -17,7 +22,13 @@ const SingleUser = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUser, setLoadedUser] = useState();
+  const [role, setRole] = React.useState('');
   const userId = useParams().userId;
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+    console.log(role)
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -35,10 +46,10 @@ const SingleUser = () => {
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest]);
+  }, [sendRequest, userId]);
 
   const userUpdateSubmitHandler = async (event) => {
-    // console.log(formState.inputs);
+    event.preventDefault();
     // try {
     //   await sendRequest(
     //     `${process.env.REACT_APP_BACKEND_URL}/tickets/${TicketId}`,
@@ -70,7 +81,7 @@ const SingleUser = () => {
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
-        <Link to="/auth">
+        <Link to="/users/new">
           <button className="userAddButton">Create</button>
         </Link>
       </div>
@@ -135,7 +146,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    ticketholder={loadedUser.email}
+                    placeholder={loadedUser.email}
                     className="userUpdateInput username"
                   />
                 )}
@@ -145,7 +156,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    ticketholder={loadedUser.name}
+                    placeholder={loadedUser.name}
                     className="userUpdateInput fullName"
                   />
                 )}
@@ -155,7 +166,7 @@ const SingleUser = () => {
                 {loadedUser && (
                   <input
                     type="text"
-                    ticketholder={loadedUser.email}
+                    placeholder={loadedUser.email}
                     className="userUpdateInput email"
                   />
                 )}
@@ -164,17 +175,25 @@ const SingleUser = () => {
                 <label>Phone</label>
                 <input
                   type="text"
-                  ticketholder="+1 123 456 67"
+                  placeholder="+1 123 456 67"
                   className="userUpdateInput phoneNumber"
                 />
               </div>
               <div className="userUpdateItem">
-                <label>Address</label>
-                <input
-                  type="text"
-                  ticketholder="Canada"
-                  className="userUpdateInput address"
-                />
+              <FormControl variant="standard" sx={{ minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-standard-label">Role</InputLabel>
+              {loadedUser && (<Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={role}
+                onChange={handleChange}
+                label="Role"
+              >
+                <MenuItem value={"Representative"}>Representative</MenuItem>
+                <MenuItem value={"Department Manager"}>Department Manager</MenuItem>
+                <MenuItem value={"Problem Solver"}>Problem Solver</MenuItem>
+              </Select>)}
+            </FormControl>
               </div>
             </div>
             <div className="userUpdateRight">

@@ -210,6 +210,7 @@ const TicketList = () => {
         <div style={{ height: 700, width: "100%" }}>
           {rows && (
             <DataGrid
+            disableVirtualization
               columns={columns}
               rows={rows}
               componentsProps={{

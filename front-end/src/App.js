@@ -19,7 +19,7 @@ import { AuthContext } from "./shared/context/auth-context";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
 import { Container } from "@mui/material";
 
-import {useAuth} from './shared/hooks/auth-hook';
+import { useAuth } from "./shared/hooks/auth-hook";
 
 const FAQ = React.lazy(() => import("./user/pages/FAQ"));
 const Auth = React.lazy(() => import("./user/pages/Auth"));
@@ -28,36 +28,41 @@ const UpdateTicket = React.lazy(() => import("./tickets/pages/UpdateTicket"));
 const TicketList = React.lazy(() => import("./tickets/pages/TicketList"));
 const AllUsers = React.lazy(() => import("./user/pages/AllUsers"));
 const SingleUser = React.lazy(() => import("./user/pages/SingleUser"));
+const NewUser = React.lazy(() => import("./user/pages/NewUser"));
 
 const App = () => {
-  const {token, login, logout, userId, role, image} = useAuth();
+  const { token, login, logout, userId, role, image } = useAuth();
 
   let routes;
-
+console.log(routes);
   if (token) {
     routes = (
       <div>
-      <TopBar />
-      <div className="main-content">
-        <SideBar />
-        <div style={{ flex: 4 }}>
-          <Switch>
-            <Route path="/users/all" exact>
-              <AllUsers />
-            </Route>
-            <Route path="/users/:userId" exact>
-              <SingleUser />
-            </Route>
-            <Route path="/tickets/all" exact>
-              <TicketList />
-            </Route>
-            <Route path="/tickets/:TicketId" exact>
-              <UpdateTicket />
-            </Route>
-            <Redirect to="/users/all" />
-          </Switch>
+        <TopBar />
+        <div className="main-content">
+          <SideBar />
+          <div style={{ flex: 4 }}>
+            <Switch>
+              <Route path="/users/new" exact>
+                <NewUser />
+              </Route>
+              <Route path="/users/all" exact>
+                <AllUsers />
+              </Route>
+              <Route path="/users/:userId" exact>
+                <SingleUser />
+              </Route>
+              <Route path="/tickets/all" exact>
+                <TicketList />
+              </Route>
+              <Route path="/tickets/:ticketId" exact>
+                <UpdateTicket />
+              </Route>
+              <Redirect to="/users/all" />
+            </Switch>
+          </div>
+
         </div>
-      </div>
       </div>
     );
   } else {

@@ -20,6 +20,9 @@ const TicketSchema = new Schema({
     type: String,
     default: "",
   },
+
+
+
 });
 
 module.exports = mongoose.model("Ticket", TicketSchema);

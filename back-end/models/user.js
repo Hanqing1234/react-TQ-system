@@ -6,10 +6,13 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: { type: String, required: true },
+    username: { type: String },
+    phone: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, minlength: 6 },
-    image: { type: String, required: true },
-    role: { type: String, default: "Admin"},
+    image: { type: String },
+    address: { type: String },
+    role: { type: String },
     create_date: {
         type: String,
         default: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),

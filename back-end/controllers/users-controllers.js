@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
+const mongoose = require("mongoose");
+const fs = require("fs");
 const User = require("../models/user");
 
 const getSingleUser = async (req, res, next) => {
@@ -51,7 +53,7 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password, username, phone, address,role } = req.body;
 
   let existingUser;
   try {
@@ -66,7 +68,7 @@ const signup = async (req, res, next) => {
 
   if (existingUser) {
     const error = new HttpError(
-      "User exists already, please login instead.",
+      "User exists already, please change to another email address.",
       422
     );
     return next(error);
@@ -82,9 +84,13 @@ const signup = async (req, res, next) => {
 
   const createdUser = new User({
     name,
+    username,
+    phone,
+    address,
     email,
-    image: req.file.path,
+    role,
     password: hashedPassword,
+    image: req.file.path,
   });
 
   try {
@@ -110,6 +116,7 @@ const signup = async (req, res, next) => {
     .status(201)
     .json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
+
 const login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -127,7 +134,7 @@ const login = async (req, res, next) => {
 
   if (!existingUser) {
     const error = new HttpError(
-      "Invalid credentials, could not log you in.",
+      "Invalid credentials, the email is not registered.",
       401
     );
     return next(error);
@@ -168,7 +175,51 @@ const login = async (req, res, next) => {
   });
 };
 const updateSingleUser = async (req, res, next) => {};
-const deleteSingleUser = async (req, res, next) => {};
+const deleteSingleUser = async (req, res, next) => {
+  const userId = req.params.pid;
+  console.log(userId);
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete user, 1.",
+      500
+    );
+    return next(error);
+  }
+
+
+  if (!user) {
+    const error = new HttpError("Could not find place for this id.", 404);
+    return next(error);
+  }
+
+  const imagePath = user.image;
+  console.log(user);
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await user.remove({ session: sess });
+    User.remove({ user });
+    //place.creator.places.pull(place);
+    //await place.creator.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete user,2.",
+      500
+    );
+    return next(error);
+  }
+
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
+
+  res.status(200).json({ message: "Deleted place." });
+};
 
 exports.getSingleUser = getSingleUser;
 exports.getUsers = getUsers;

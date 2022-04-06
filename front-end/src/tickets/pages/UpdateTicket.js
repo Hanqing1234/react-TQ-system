@@ -8,15 +8,18 @@ import Card from "../../shared/components/UIElements/Card";
 import { Image } from "antd";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+
 import { AuthContext } from "../../shared/context/auth-context";
 import "./TicketForm.css";
-import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import FormLabel from "@mui/material/FormLabel";
+import { Radio, RadioGroup, FormControlLabel, FormLabel } from "@mui/material";
+
+
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 
 const UpdateTicket = () => {
   const auth = useContext(AuthContext);
-  const TicketId = useParams().TicketId;
+  const TicketId = useParams().ticketId;
+  console.log(useParams())
   const history = useHistory();
   const [loadedTicket, setLoadedTicket] = useState();
   const [status, setStatus] = useState();
@@ -62,7 +65,7 @@ const UpdateTicket = () => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: 'Bearer ' + auth.token,
+          Authorization: 'Bearer ' + auth.token,         
         }
       );
       history.push("/tickets/all");
