@@ -155,6 +155,22 @@ const TicketList = () => {
         );
       },
     },
+    {
+      field: "sendEmail",
+      headerName: "",
+      width: 100,
+      renderCell: (cellValues) => {
+        return (
+          <React.Fragment>
+            {(auth.role === "Representative" || auth.role === "Admin") && (
+              <Button onClick={() => (window.location.href = `mailto:${cellValues.row.cust_email}?subject=Ticket Feedback`)}>
+                Send Email
+              </Button>
+            )}
+          </React.Fragment>
+        );
+      },
+    },
     removeBtn,
   ];
 
