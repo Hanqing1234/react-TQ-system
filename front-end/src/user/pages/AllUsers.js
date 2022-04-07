@@ -27,7 +27,7 @@ const AllUsers = () => {
           "GET",
           null,
           {
-            Authorization: 'Bearer ' + auth.token
+            Authorization: "Bearer " + auth.token,
           }
         );
         //responseData.users.filter()
@@ -96,13 +96,17 @@ const AllUsers = () => {
       renderCell: (params) => {
         return (
           <React.Fragment>
-            {auth.role === "Admin" && <Button to={"/users/" + params.row.id}>Edit</Button>}
-            {auth.role === "Admin" && <DeleteOutline
-              onClick={() => {
-                showDeleteHandler(params);
-              }}
-              className="productListDelete"
-            />}
+            {auth.role === "Admin" && (
+              <Button to={"/users/" + params.row.id}>Edit</Button>
+            )}
+            {auth.role === "Admin" && (
+              <DeleteOutline
+                onClick={() => {
+                  showDeleteHandler(params);
+                }}
+                className="productListDelete"
+              />
+            )}
           </React.Fragment>
         );
       },
@@ -111,34 +115,42 @@ const AllUsers = () => {
 
   return (
     <React.Fragment>
-    <ErrorModal error={error} onClear={clearError} />
-    <ModalTest
-      show={showConfirmModal}
-      onCancel={cancelDeleteHandler}
-      header="Are you sure"
-      footerClass="place-item__modal-actions"
-      footer={
-        <React.Fragment>
-          <Button inverse onClick={cancelDeleteHandler}>
-            CANCEL
-          </Button>
-          <Button danger onClick={() => confirmDeleteHandler(userRow)}>
-            DELETE
-          </Button>
-        </React.Fragment>
-      }
-    >
-      <p>Do you want to delete?</p>
-    </ModalTest>
-    <div className="userTitleContainer">
-    
-    <Link to="/users/new">
-      <button className="userAddButton">Create</button>
-    </Link>
-  </div>
-      <div className="userList">
-        <DataGrid rows={data} disableSelectionOnClick columns={columns} />
-      </div>
+      <ErrorModal error={error} onClear={clearError} />
+      <ModalTest
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button danger onClick={() => confirmDeleteHandler(userRow)}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>Do you want to delete?</p>
+      </ModalTest>
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && (
+        <div>
+          <div className="userTitleContainer">
+            <Link to="/users/new">
+              <button className="userAddButton">Create</button>
+            </Link>
+          </div>
+          <div className="userList">
+            <DataGrid rows={data} disableSelectionOnClick columns={columns} />
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };
